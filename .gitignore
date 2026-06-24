@@ -35,3 +35,7 @@ yarn-error.log*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local generation and agent planning files
+tools/
+docs/superpowers/
