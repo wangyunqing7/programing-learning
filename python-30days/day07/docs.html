@@ -1,47 +1,92 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 07 天 - 单位换算函数</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 07 天</span></nav>
-        <h1>Python 30 天学习项目 第 07 天：单位换算函数</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>函数定义、参数和返回值</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 07 - 单位换算函数</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 07 · 单位换算函数</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:23.3%"></span></span>
+      <span class="progress-label">7 / 30</span>
+    </span>
+  </nav>
+
+  <h1>单位换算函数</h1>
+  <p class="subtitle">函数定义、参数、返回值、函数表分发</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>定义带参数和返回值的函数</li>
+        <li>理解「先归一再转换」的统一换算思路</li>
+        <li>用嵌套字典做换算系数表</li>
+        <li>用异常处理不支持的类别/单位</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>归一化</strong>：选定一个基准单位（如长度的米）系数为 1.0，其它单位给出相对系数。任意两个单位互转 = 先乘源系数归一到基准，再除以目标系数。</p>
+        <p><strong>函数表分发</strong>：用数据（字典）描述规则，而不是写一堆 if/elif，扩展新类别只需加一行数据。</p>
+        <p><strong>def</strong>：<code>def 名(参数) -> 返回类型:</code>，参数可以有默认值。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>单位跨类别（如把米换算成千克）要报错而不是给错误答案。</li>
+          <li>系数表写错一个数字，所有相关换算都会错。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>加一个「面积」类别（m²、km²、acre）。</li>
+          <li>让 <code>convert</code> 支持「一次性输出所有单位」的批量换算。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">CONVERSIONS = {
+    "length": {"m": 1.0, "km": 1000.0, "cm": 0.01, "mile": 1609.34},
+    "weight": {"kg": 1.0, "g": 0.001, "lb": 0.453592},
+}
+
+def convert(value, category, from_unit, to_unit):
+    table = CONVERSIONS.get(category)
+    if table is None:
+        raise ValueError(f"不支持：{category}")
+    if from_unit not in table or to_unit not in table:
+        raise ValueError(f"单位不在 {category}")
+    base = value * table[from_unit]
+    return base / table[to_unit]</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">长度换算：
+  1 km = 0.6214 mile
+  100 m = 328.0840 ft
+重量换算：
+  1 kg = 2.2046 lb
+  1 m->kg: 单位不在 length 里：m/kg</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day06/docs.html"><span class="label">← 前一天</span><span class="title">Day 06 联系人字典</span></a>
+    <a class="next" href="day08/docs.html"><span class="label">后一天 →</span><span class="title">Day 08 密码建议器</span></a>
+  </nav>
+</main>
+</body>
+</html>

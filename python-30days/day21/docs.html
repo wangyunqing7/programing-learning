@@ -1,47 +1,92 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 21 天 - 日志记录器</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 21 天</span></nav>
-        <h1>Python 30 天学习项目 第 21 天：日志记录器</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>logging 模块</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 21 - 日志记录器</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 21 · 日志记录器</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:70.0%"></span></span>
+      <span class="progress-label">21 / 30</span>
+    </span>
+  </nav>
+
+  <h1>日志记录器</h1>
+  <p class="subtitle">logging 分级、多 handler、格式化</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>logging</code> 替代 print 做日志</li>
+        <li>理解日志级别 DEBUG/INFO/WARNING/ERROR</li>
+        <li>配置多个 handler（控制台 + 文件）</li>
+        <li>用 Formatter 自定义输出格式</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>为什么不用 print</strong>：logging 能分级（生产环境只看 WARNING 以上）、能同时写多处、能带时间戳，print 做不到。</p>
+        <p><strong>Handler</strong>：<code>StreamHandler</code> 输出到控制台，<code>FileHandler</code> 写文件。一个 logger 可以挂多个 handler，各自独立设级别。</p>
+        <p><strong>Formatter</strong>：<code>%(asctime)s | %(levelname)s | %(message)s</code> 定义每条日志的格式。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>重复 <code>addHandler</code> 会重复输出（每次运行多挂一个），要先 <code>logger.handlers.clear()</code>。</li>
+          <li>DEBUG 级别在默认配置下不显示，要 <code>setLevel(logging.DEBUG)</code>。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>用 <code>RotatingFileHandler</code> 按大小轮转日志。</li>
+          <li>给不同模块配不同的 logger 名。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">import logging
+
+def setup_logger(logfile):
+    logger = logging.getLogger("day21")
+    logger.setLevel(logging.DEBUG)
+    logger.handlers.clear()
+    fmt = logging.Formatter("%(asctime)s | %(levelname)-7s | %(message)s")
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    console.setFormatter(fmt)
+    file_h = logging.FileHandler(logfile, encoding="utf-8")
+    file_h.setLevel(logging.DEBUG)
+    logger.addHandler(console); logger.addHandler(file_h)
+    return logger</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">20:55:01 | INFO    | 开始处理任务
+20:55:01 | INFO    | 任务进行中 50%
+20:55:01 | WARNING | 这是个警告，磁盘空间不足
+20:55:01 | INFO    | 任务完成 100%
+（文件里还多了 DEBUG 那条）</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day20/docs.html"><span class="label">← 前一天</span><span class="title">Day 20 参数解析器</span></a>
+    <a class="next" href="day22/docs.html"><span class="label">后一天 →</span><span class="title">Day 22 递归目录摘要</span></a>
+  </nav>
+</main>
+</body>
+</html>

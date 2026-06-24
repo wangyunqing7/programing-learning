@@ -1,47 +1,89 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 15 天 - 列表推导统计</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 15 天</span></nav>
-        <h1>Python 30 天学习项目 第 15 天：列表推导统计</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>推导式和 statistics</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 15 - 列表推导统计</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 15 · 列表推导统计</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:50.0%"></span></span>
+      <span class="progress-label">15 / 30</span>
+    </span>
+  </nav>
+
+  <h1>列表推导统计</h1>
+  <p class="subtitle">推导式、过滤、海象运算符、statistics</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>写列表/字典/集合推导式</li>
+        <li>在推导式里加 <code>if</code> 过滤</li>
+        <li>用海象运算符 <code>:=</code> 复用表达式结果</li>
+        <li>用 <code>statistics</code> 模块算均值/中位数/标准差</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>推导式</strong>：<code>[表达式 for x in 列表 if 条件]</code> 一行生成新列表，比 for+append 简洁。</p>
+        <p><strong>海象 :=</strong>：在表达式里赋值。<code>... if (p := s['python']) &gt;= 60</code> 先把分数存到 p，后面直接用，避免重复索引。</p>
+        <p><strong>statistics</strong>：<code>mean/median/pstdev</code> 算常用统计量。空列表会抛 <code>StatisticsError</code>。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>推导式太长会难读，超过一行考虑改回 for 循环。</li>
+          <li>空数据集调 statistics 会报错，要先判空。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>用集合推导找出「各科都及格」的人。</li>
+          <li>用字典推导生成「名字→等级」映射。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">import statistics
+
+def analyze(students):
+    python_scores = [s["python"] for s in students]
+    passed = [s for s in python_scores if s >= 60]
+    tags = [f"{s['name']}:{'优' if p>=90 else '良'}"
+            for s in students if (p := s["python"]) >= 60]
+    totals = {s["name"]: s["math"]+s["english"]+s["python"]
+              for s in students}
+    print(statistics.mean(python_scores), statistics.median(python_scores))</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">成绩统计：
+  Python 均分：75.3
+  Python 中位数：80.5
+  及格人数：3 / 4
+  标准差：17.2
+边界测试：cannot calculate statistics with empty data</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day14/docs.html"><span class="label">← 前一天</span><span class="title">Day 14 图书 dataclass</span></a>
+    <a class="next" href="day16/docs.html"><span class="label">后一天 →</span><span class="title">Day 16 CLI 菜单模拟</span></a>
+  </nav>
+</main>
+</body>
+</html>

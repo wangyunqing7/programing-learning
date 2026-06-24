@@ -1,47 +1,97 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 10 天 - 临时笔记文件</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 10 天</span></nav>
-        <h1>Python 30 天学习项目 第 10 天：临时笔记文件</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>pathlib 和文件读写</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 10 - 临时笔记文件</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 10 · 临时笔记文件</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:33.3%"></span></span>
+      <span class="progress-label">10 / 30</span>
+    </span>
+  </nav>
+
+  <h1>临时笔记文件</h1>
+  <p class="subtitle">pathlib、文件读写、临时目录</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>Path</code> 拼接路径、读写文件</li>
+        <li>用 <code>read_text/write_text</code> 一步读写</li>
+        <li>用 <code>glob</code> 匹配文件</li>
+        <li>用 <code>TemporaryDirectory</code> 自动清理</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>Path</strong>：<code>Path(a) / b</code> 用除号拼路径，跨平台都安全（自动处理分隔符）。</p>
+        <p><strong>读写</strong>：<code>p.read_text(encoding='utf-8')</code> 和 <code>p.write_text(s)</code> 比手写 <code>open/close</code> 简洁。</p>
+        <p><strong>临时目录</strong>：<code>with TemporaryDirectory() as d:</code> 退出 with 块时自动删除整个目录，适合做练习不污染磁盘。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>读写中文要指定 <code>encoding='utf-8'</code>，否则 Windows 默认 GBK 会乱码。</li>
+          <li>退出 <code>TemporaryDirectory</code> 的 with 块后目录已被删，不能再访问。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>加 <code>append</code> 方法（用 <code>open('a')</code> 追加）。</li>
+          <li>用 <code>stat().st_size</code> 显示每个笔记的大小。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">from pathlib import Path
+from tempfile import TemporaryDirectory
+
+@dataclass
+class Notebook:
+    root: Path
+    def write(self, name, content):
+        path = self.root / f"{name}.md"
+        path.write_text(content, encoding="utf-8")
+        return path
+    def read(self, name):
+        path = self.root / f"{name}.md"
+        if not path.exists():
+            raise FileNotFoundError(f"没有：{name}")
+        return path.read_text(encoding="utf-8")
+    def list_pages(self):
+        return sorted(self.root.glob("*.md"))</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">所有笔记文件：
+  day10.md (28 字节)
+  todo.md (22 字节)
+读取 day10：
+# 临时笔记
+今天学习 pathlib 读写文件。
+边界测试：没有这页笔记：missing</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day09/docs.html"><span class="label">← 前一天</span><span class="title">Day 09 文本统计器</span></a>
+    <a class="next" href="day11/docs.html"><span class="label">后一天 →</span><span class="title">Day 11 JSON 任务数据</span></a>
+  </nav>
+</main>
+</body>
+</html>
