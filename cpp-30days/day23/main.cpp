@@ -1,21 +1,27 @@
-#include <algorithm>
-#include <chrono>
-#include <filesystem>
-#include <functional>
 #include <iostream>
-#include <map>
-#include <memory>
-#include <numeric>
-#include <optional>
-#include <random>
 #include <sstream>
-#include <stdexcept>
 #include <string>
-#include <utility>
-#include <vector>
 
+// 第 23 天：sstream
 int main() {
-    std::cout << "C++ Day 23: sstream\n";
-    std::istringstream input{"Ada 95"}; std::string name; int score; input >> name >> score; std::cout << name << ":" << score << "\\n";
+    // ostringstream：拼接字符串
+    std::ostringstream oss;
+    oss << "学生：" << "Ada" << " 分数：" << 95;
+    std::string result = oss.str();
+    std::cout << result << std::endl;
+
+    // istringstream：解析字符串
+    std::string data = "Ada 95 88";
+    std::istringstream iss(data);
+    std::string name;
+    int math, english;
+    iss >> name >> math >> english;
+    std::cout << name << " 总分 " << math + english << std::endl;
+
+    // 字符串转数字
+    std::istringstream num("42");
+    int n;
+    num >> n;
+    std::cout << "解析的数字：" << n << std::endl;
     return 0;
 }

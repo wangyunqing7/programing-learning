@@ -3,194 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>纯 C++ 30 天学习项目</title>
+  <title>C++ 30 天学习项目</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <main class="page">
-    <h1>纯 C++ 30 天学习项目</h1>
-    <section><p>每天一个标准 C++17 控制台项目，覆盖语法、容器、类、算法和小型综合练习。</p></section>
-    <div class="grid">
-    <article class="card">
-      <span class="badge">Day 01</span>
-      <h2><a href="day01/docs.html">Hello C++</a></h2>
-      <p>iostream 和 main</p>
-    </article>
+<main class="page">
+  <section class="course-hero">
+    <h1>C++ 30 天学习项目</h1>
+    <p>每天一个控制台小程序，从 Hello C++ 到 STL、lambda、智能指针、模板和综合项目。运行方式：进入当天目录执行 <code style="background:rgba(255,255,255,.15);color:#fff">g++ -std=c++17 main.cpp -o a &amp;&amp; ./a</code>。</p>
+  </section>
 
-    <article class="card">
-      <span class="badge">Day 02</span>
-      <h2><a href="day02/docs.html">数字计算</a></h2>
-      <p>变量、表达式和格式化输出</p>
-    </article>
+  <div class="week-label">第 1 周 · 基础</div>
+  <div class="grid">
+    <article class="card"><span class="badge">Day 01</span><h2><a href="day01/docs.html">Hello C++</a></h2><p>iostream、main、命名空间</p></article>
+    <article class="card"><span class="badge">Day 02</span><h2><a href="day02/docs.html">数字计算</a></h2><p>auto、const、表达式</p></article>
+    <article class="card"><span class="badge">Day 03</span><h2><a href="day03/docs.html">条件判断</a></h2><p>if/else、三元运算符</p></article>
+    <article class="card"><span class="badge">Day 04</span><h2><a href="day04/docs.html">循环汇总</a></h2><p>range-for、accumulate</p></article>
+    <article class="card"><span class="badge">Day 05</span><h2><a href="day05/docs.html">vector 列表</a></h2><p>std::vector 动态数组</p></article>
+    <article class="card"><span class="badge">Day 06</span><h2><a href="day06/docs.html">字符串处理</a></h2><p>std::string 方法</p></article>
+    <article class="card"><span class="badge">Day 07</span><h2><a href="day07/docs.html">函数拆分</a></h2><p>默认参数、重载、引用</p></article>
+  </div>
 
-    <article class="card">
-      <span class="badge">Day 03</span>
-      <h2><a href="day03/docs.html">条件判断</a></h2>
-      <p>if/else</p>
-    </article>
+  <div class="week-label">第 2 周 · OOP 与 STL</div>
+  <div class="grid">
+    <article class="card"><span class="badge">Day 08</span><h2><a href="day08/docs.html">结构体</a></h2><p>struct 聚合数据</p></article>
+    <article class="card"><span class="badge">Day 09</span><h2><a href="day09/docs.html">类和封装</a></h2><p>class、访问控制</p></article>
+    <article class="card"><span class="badge">Day 10</span><h2><a href="day10/docs.html">构造函数</a></h2><p>初始化列表、析构</p></article>
+    <article class="card"><span class="badge">Day 11</span><h2><a href="day11/docs.html">枚举</a></h2><p>enum class 强类型</p></article>
+    <article class="card"><span class="badge">Day 12</span><h2><a href="day12/docs.html">map 统计</a></h2><p>std::map 键值容器</p></article>
+    <article class="card"><span class="badge">Day 13</span><h2><a href="day13/docs.html">文件输出</a></h2><p>fstream 文件读写</p></article>
+    <article class="card"><span class="badge">Day 14</span><h2><a href="day14/docs.html">异常处理</a></h2><p>throw / try / catch</p></article>
+    <article class="card"><span class="badge">Day 15</span><h2><a href="day15/docs.html">lambda</a></h2><p>lambda 表达式与算法</p></article>
+    <article class="card"><span class="badge">Day 16</span><h2><a href="day16/docs.html">algorithm</a></h2><p>STL 算法库</p></article>
+    <article class="card"><span class="badge">Day 17</span><h2><a href="day17/docs.html">模板函数</a></h2><p>template 泛型</p></article>
+    <article class="card"><span class="badge">Day 18</span><h2><a href="day18/docs.html">智能指针</a></h2><p>unique_ptr / shared_ptr</p></article>
+    <article class="card"><span class="badge">Day 19</span><h2><a href="day19/docs.html">optional</a></h2><p>std::optional 可选值</p></article>
+    <article class="card"><span class="badge">Day 20</span><h2><a href="day20/docs.html">chrono</a></h2><p>时间处理与计时</p></article>
+    <article class="card"><span class="badge">Day 21</span><h2><a href="day21/docs.html">filesystem</a></h2><p>std::filesystem 路径文件</p></article>
+  </div>
 
-    <article class="card">
-      <span class="badge">Day 04</span>
-      <h2><a href="day04/docs.html">循环汇总</a></h2>
-      <p>for 循环</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 05</span>
-      <h2><a href="day05/docs.html">vector 列表</a></h2>
-      <p>std::vector</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 06</span>
-      <h2><a href="day06/docs.html">字符串处理</a></h2>
-      <p>std::string</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 07</span>
-      <h2><a href="day07/docs.html">函数拆分</a></h2>
-      <p>函数和返回值</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 08</span>
-      <h2><a href="day08/docs.html">结构体</a></h2>
-      <p>struct</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 09</span>
-      <h2><a href="day09/docs.html">类和封装</a></h2>
-      <p>class</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 10</span>
-      <h2><a href="day10/docs.html">构造函数</a></h2>
-      <p>constructor</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 11</span>
-      <h2><a href="day11/docs.html">枚举</a></h2>
-      <p>enum class</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 12</span>
-      <h2><a href="day12/docs.html">map 统计</a></h2>
-      <p>std::map</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 13</span>
-      <h2><a href="day13/docs.html">文件输出</a></h2>
-      <p>fstream</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 14</span>
-      <h2><a href="day14/docs.html">异常处理</a></h2>
-      <p>throw/catch</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 15</span>
-      <h2><a href="day15/docs.html">lambda</a></h2>
-      <p>lambda 表达式</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 16</span>
-      <h2><a href="day16/docs.html">algorithm</a></h2>
-      <p>std::sort 和 count_if</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 17</span>
-      <h2><a href="day17/docs.html">模板函数</a></h2>
-      <p>template</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 18</span>
-      <h2><a href="day18/docs.html">智能指针</a></h2>
-      <p>std::unique_ptr</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 19</span>
-      <h2><a href="day19/docs.html">optional</a></h2>
-      <p>std::optional</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 20</span>
-      <h2><a href="day20/docs.html">chrono</a></h2>
-      <p>时间处理</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 21</span>
-      <h2><a href="day21/docs.html">filesystem</a></h2>
-      <p>路径处理</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 22</span>
-      <h2><a href="day22/docs.html">random</a></h2>
-      <p>随机数</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 23</span>
-      <h2><a href="day23/docs.html">sstream</a></h2>
-      <p>字符串流</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 24</span>
-      <h2><a href="day24/docs.html">递归</a></h2>
-      <p>递归函数</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 25</span>
-      <h2><a href="day25/docs.html">搜索算法</a></h2>
-      <p>find_if</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 26</span>
-      <h2><a href="day26/docs.html">费用统计</a></h2>
-      <p>聚合计算</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 27</span>
-      <h2><a href="day27/docs.html">小型任务模型</a></h2>
-      <p>结构体数组和函数</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 28</span>
-      <h2><a href="day28/docs.html">配置解析</a></h2>
-      <p>键值解析</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 29</span>
-      <h2><a href="day29/docs.html">命令调度</a></h2>
-      <p>函数对象</p>
-    </article>
-
-    <article class="card">
-      <span class="badge">Day 30</span>
-      <h2><a href="day30/docs.html">学习仪表盘</a></h2>
-      <p>综合复盘</p>
-    </article>
-    </div>
-  </main>
+  <div class="week-label">第 3-4 周 · 综合应用</div>
+  <div class="grid">
+    <article class="card"><span class="badge">Day 22</span><h2><a href="day22/docs.html">random</a></h2><p>现代随机数生成</p></article>
+    <article class="card"><span class="badge">Day 23</span><h2><a href="day23/docs.html">sstream</a></h2><p>字符串流与格式化</p></article>
+    <article class="card"><span class="badge">Day 24</span><h2><a href="day24/docs.html">递归</a></h2><p>递归函数与分治</p></article>
+    <article class="card"><span class="badge">Day 25</span><h2><a href="day25/docs.html">搜索算法</a></h2><p>find 与二分查找</p></article>
+    <article class="card"><span class="badge">Day 26</span><h2><a href="day26/docs.html">费用统计</a></h2><p>数据聚合与 map</p></article>
+    <article class="card"><span class="badge">Day 27</span><h2><a href="day27/docs.html">小型任务模型</a></h2><p>结构体数组与命令分发</p></article>
+    <article class="card"><span class="badge">Day 28</span><h2><a href="day28/docs.html">配置解析</a></h2><p>字符串解析与 map</p></article>
+    <article class="card"><span class="badge">Day 29</span><h2><a href="day29/docs.html">命令调度</a></h2><p>函数对象与回调</p></article>
+    <article class="card"><span class="badge">Day 30</span><h2><a href="day30/docs.html">学习仪表盘</a></h2><p>综合复盘 30 天</p></article>
+  </div>
+</main>
 </body>
 </html>

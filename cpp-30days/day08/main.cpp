@@ -1,21 +1,34 @@
-#include <algorithm>
-#include <chrono>
-#include <filesystem>
-#include <functional>
 #include <iostream>
-#include <map>
-#include <memory>
-#include <numeric>
-#include <optional>
-#include <random>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
 #include <vector>
+#include <string>
+
+// 第 08 天：结构体
+struct Student {
+    std::string name;
+    int score;
+};
+
+struct Point {
+    double x, y;
+
+    double distance_to(const Point& other) const {
+        double dx = x - other.x, dy = y - other.y;
+        return dx*dx + dy*dy;  // 距离平方，省去 sqrt
+    }
+};
 
 int main() {
-    std::cout << "C++ Day 08: 结构体\n";
-    struct Task { std::string title; bool done; }; Task task{"learn struct", false}; std::cout << task.title << "\\n";
+    // 聚合初始化
+    Student s{"Ada", 95};
+    std::cout << s.name << ": " << s.score << std::endl;
+
+    Point a{3, 4}, b{0, 0};
+    std::cout << "距离平方 = " << a.distance_to(b) << std::endl;
+
+    // 结构体数组
+    std::vector<Student> students = {{"Ada",95},{"Linus",78},{"Grace",55}};
+    for (const auto& st : students) {
+        std::cout << st.name << " " << st.score << std::endl;
+    }
     return 0;
 }

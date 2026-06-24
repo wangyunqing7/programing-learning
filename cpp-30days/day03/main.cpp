@@ -1,21 +1,22 @@
-#include <algorithm>
-#include <chrono>
-#include <filesystem>
-#include <functional>
 #include <iostream>
-#include <map>
-#include <memory>
-#include <numeric>
-#include <optional>
-#include <random>
-#include <sstream>
-#include <stdexcept>
 #include <string>
-#include <utility>
-#include <vector>
+
+// 第 03 天：条件判断
+std::string grade_of(int score) {
+    if (score >= 90) return "优秀";
+    else if (score >= 80) return "良好";
+    else if (score >= 60) return "及格";
+    else return "不及格";
+}
 
 int main() {
-    std::cout << "C++ Day 03: 条件判断\n";
-    int score = 86; std::cout << (score >= 60 ? "pass" : "retry") << "\\n";
+    int scores[] = {95, 82, 68, 45};
+    for (int s : scores) {  // 范围 for 循环
+        std::cout << s << " -> " << grade_of(s) << std::endl;
+    }
+
+    // 三元运算符
+    int n = 10;
+    std::cout << n << " 是" << (n % 2 == 0 ? "偶数" : "奇数") << std::endl;
     return 0;
 }

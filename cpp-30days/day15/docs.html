@@ -1,48 +1,83 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>纯 C++ 30 天学习项目 第 15 天 - lambda</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 15 天</span></nav>
-        <h1>纯 C++ 30 天学习项目 第 15 天：lambda</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>lambda 表达式</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.cpp</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ 30 天 · Day 15 - lambda</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 15 · lambda</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:50.0%"></span></span>
+      <span class="progress-label">15 / 30</span>
+    </span>
+  </nav>
+
+  <h1>lambda</h1>
+  <p class="subtitle">lambda 表达式与算法</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>lambda 表达式与算法</strong>，通过一个可运行的小程序理解核心用法。</p>
+      <section><h3>知识点</h3><ul>
+          <li><code>[捕获](参数){体}</code> 定义匿名函数</li>
+          <li><code>[]</code> 不捕获，<code>[=]</code> 值捕获，<code>[&amp;]</code> 引用捕获</li>
+          <li>lambda 常配合 STL 算法：<code>sort/find_if/count_if</code></li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li><code>[&amp;]</code> 捕获引用，lambda 在局部变量销毁后用会悬空</li>
+            <li>捕获和参数要分清</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>用 lambda 找出第一个大于 50 的元素。</p></div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.cpp</p>
+      <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+// 第 15 天：lambda
+int main() {
+    std::vector&lt;int&gt; nums = {42, 7, 19, 88, 3, 56};
+
+    // lambda 排序（降序）
+    std::sort(nums.begin(), nums.end(), [](int a, int b) { return a &gt; b; });
+    std::cout &lt;&lt; "降序：";
+    for (auto n : nums) std::cout &lt;&lt; n &lt;&lt; " ";
+    std::cout &lt;&lt; std::endl;
+
+    // count_if 统计满足条件的
+    int threshold = 40;
+    int cnt = std::count_if(nums.begin(), nums.end(),
+                            [threshold](int n) { return n &gt; threshold; });
+    std::cout &lt;&lt; "大于 " &lt;&lt; threshold &lt;&lt; " 的个数：" &lt;&lt; cnt &lt;&lt; std::endl;
+
+    // find_if 找第一个
+    auto it = std::find_if(nums.begin(), nums.end(), [](int n){ return n &lt; 10; });
+    if (it != nums.end()) std::cout &lt;&lt; "第一个小于10的：" &lt;&lt; *it &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">降序：88 56 42 19 7 3 
+大于 40 的个数：2
+第一个小于10的：7</pre>
+      <section><h3>编译运行</h3>
+      <pre><code>cd cpp-30days/day15
+g++ -std=c++17 -Wall main.cpp -o a &amp;&amp; ./a</pre></code>
+      <p>需要 C++17 或更高（用到结构化绑定、filesystem 等）。</p></section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day14/docs.html"><span class="label">← 前一天</span><span class="title">Day 14</span></a>
+    <a class="next" href="day16/docs.html"><span class="label">后一天 →</span><span class="title">Day 16</span></a>
+  </nav>
+</main>
+</body>
+</html>
