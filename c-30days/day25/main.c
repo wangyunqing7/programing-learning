@@ -1,43 +1,44 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 25 天：状态机
+ * 一个迷你文字冒险的状态机。
+ */
+typedef enum { S_START, S_FOREST, S_TREASURE, S_END } State;
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+const char* state_name(State s) {
+    switch (s) {
+        case S_START:    return "起点";
+        case S_FOREST:   return "森林";
+        case S_TREASURE: return "宝箱";
+        case S_END:      return "结束";
+    }
+    return "?";
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
+/* 模拟玩家的一系列输入 */
 int main(void) {
-    printf("C Day 25: 状态机\n");
-    State state = STATE_START; state = next_state(state); printf("%d\\n", state);
+    State state = S_START;
+    char inputs[] = {'g', 'g', 't'};  /* g=go, t=take */
+    int idx = 0, total = 3;
+
+    while (state != S_END && idx < total) {
+        char input = inputs[idx++];
+        printf("[%s] 输入 %c -> ", state_name(state), input);
+
+        switch (state) {
+            case S_START:
+                if (input == 'g') state = S_FOREST;
+                break;
+            case S_FOREST:
+                if (input == 'g') state = S_TREASURE;
+                break;
+            case S_TREASURE:
+                if (input == 't') { printf("拿到宝物！"); state = S_END; }
+                break;
+            default: break;
+        }
+        printf(" 现在 [%s]\n", state_name(state));
+    }
+    printf("冒险结束\n");
     return 0;
 }

@@ -1,48 +1,131 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 22 天 - 小型通讯录</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 22 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 22 天：小型通讯录</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>结构体数组</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 22 - 小型通讯录</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 22 · 小型通讯录</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:73.3%"></span></span>
+      <span class="progress-label">22 / 30</span>
+    </span>
+  </nav>
+
+  <h1>小型通讯录</h1>
+  <p class="subtitle">结构体数组的增删查</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>结构体数组的增删查</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>用结构体数组存储多条记录</li>
+          <li>封装 add/find/print 函数操作数组</li>
+          <li>用计数器记录实际存了几条</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>数组容量固定，超过要检查边界</li>
+            <li>删除时要移动后续元素填补空缺</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>加一个按名字删除联系人的功能。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+/* 第 22 天：小型通讯录
+ * 用结构体数组管理联系人。
+ */
+#define MAX_CONTACTS 100
+
+typedef struct {
+    char name[32];
+    char phone[20];
+} Contact;
+
+typedef struct {
+    Contact data[MAX_CONTACTS];
+    int count;
+} AddressBook;
+
+void book_init(AddressBook *b) { b-&gt;count = 0; }
+
+void book_add(AddressBook *b, const char *name, const char *phone) {
+    if (b-&gt;count &gt;= MAX_CONTACTS) { printf("通讯录已满\n"); return; }
+    strcpy(b-&gt;data[b-&gt;count].name, name);
+    strcpy(b-&gt;data[b-&gt;count].phone, phone);
+    b-&gt;count++;
+}
+
+Contact* book_find(AddressBook *b, const char *name) {
+    for (int i = 0; i &lt; b-&gt;count; i++) {
+        if (strcmp(b-&gt;data[i].name, name) == 0) return &amp;b-&gt;data[i];
+    }
+    return NULL;
+}
+
+void book_print(AddressBook *b) {
+    printf("通讯录（共 %d 人）：\n", b-&gt;count);
+    for (int i = 0; i &lt; b-&gt;count; i++) {
+        printf("  %s  %s\n", b-&gt;data[i].name, b-&gt;data[i].phone);
+    }
+}
+
+int main(void) {
+    AddressBook book;
+    book_init(&amp;book);
+    book_add(&amp;book, "Ada", "138-0000-0001");
+    book_add(&amp;book, "Linus", "138-0000-0002");
+    book_add(&amp;book, "Grace", "138-0000-0003");
+    book_print(&amp;book);
+
+    Contact *c = book_find(&amp;book, "Linus");
+    if (c) printf("\n找到：%s %s\n", c-&gt;name, c-&gt;phone);
+    else   printf("\n没找到\n");
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">通讯录（共 3 人）：
+  Ada  138-0000-0001
+  Linus  138-0000-0002
+  Grace  138-0000-0003
+
+找到：Linus 138-0000-0002</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day22
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day21/docs.html"><span class="label">← 前一天</span><span class="title">Day 21</span></a>
+    <a class="next" href="day23/docs.html"><span class="label">后一天 →</span><span class="title">Day 23</span></a>
+  </nav>
+</main>
+</body>
+</html>

@@ -1,43 +1,37 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 17 天：函数指针
+ * 把运算函数当参数传，实现策略模式。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+/* 定义函数指针类型 */
+typedef int (*BinOp)(int, int);
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+int op_add(int a, int b) { return a + b; }
+int op_sub(int a, int b) { return a - b; }
+int op_mul(int a, int b) { return a * b; }
+
+/* 用传入的函数做运算 */
+int compute(int a, int b, BinOp op) {
+    return op(a, b);
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+/* 对数组每个元素应用函数 */
+void map(int *arr, int n, int (*f)(int)) {
+    for (int i = 0; i < n; i++) arr[i] = f(arr[i]);
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
+
+int square(int x) { return x * x; }
 
 int main(void) {
-    printf("C Day 17: 函数指针\n");
-    int (*operation)(int) = square; printf("%d\\n", operation(8));
+    printf("compute(10,3, add) = %d\n", compute(10, 3, op_add));
+    printf("compute(10,3, sub) = %d\n", compute(10, 3, op_sub));
+    printf("compute(10,3, mul) = %d\n", compute(10, 3, op_mul));
+
+    int arr[] = {1, 2, 3, 4};
+    map(arr, 4, square);
+    printf("平方后：");
+    for (int i = 0; i < 4; i++) printf(" %d", arr[i]);
+    printf("\n");
     return 0;
 }

@@ -1,43 +1,35 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 13 天：错误返回值
+ * 用返回码 + 输出参数处理错误。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+/* 返回 0 成功，非 0 失败；结果通过指针输出 */
+int safe_divide(int a, int b, int *result) {
+    if (b == 0) return -1;      /* 除零错误 */
+    if (a % b != 0) return -2;  /* 不能整除 */
+    *result = a / b;
+    return 0;
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+const char* err_msg(int code) {
+    switch (code) {
+        case 0:   return "成功";
+        case -1:  return "除零错误";
+        case -2:  return "不能整除";
+        default:  return "未知错误";
+    }
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 13: 错误返回值\n");
-    int result = safe_divide(10, 0); printf("result=%d\\n", result);
+    int cases[][2] = {{10, 2}, {10, 0}, {10, 3}};
+    for (int i = 0; i < 3; i++) {
+        int result, code = safe_divide(cases[i][0], cases[i][1], &result);
+        if (code == 0) {
+            printf("%d / %d = %d\n", cases[i][0], cases[i][1], result);
+        } else {
+            printf("%d / %d 失败：%s\n", cases[i][0], cases[i][1], err_msg(code));
+        }
+    }
     return 0;
 }

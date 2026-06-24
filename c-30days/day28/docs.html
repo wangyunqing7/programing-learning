@@ -1,48 +1,146 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 28 天 - 迷你数据库</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 28 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 28 天：迷你数据库</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>结构化记录</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 28 - 迷你数据库</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 28 · 迷你数据库</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:93.3%"></span></span>
+      <span class="progress-label">28 / 30</span>
+    </span>
+  </nav>
+
+  <h1>迷你数据库</h1>
+  <p class="subtitle">文件持久化的记录存储</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>文件持久化的记录存储</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>用二进制或文本文件存储多条记录</li>
+          <li>支持增、查、列出、保存、加载</li>
+          <li>数据结构 + 文件 IO 的综合练习</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>二进制读写要用相同的结构体布局，跨平台注意对齐</li>
+            <li>fwrite/fread 返回实际读写数量，要检查</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>加一个按字段更新记录的功能。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+/* 第 28 天：迷你数据库
+ * 用文件持久化的记录存储（文本格式）。
+ */
+#define MAX 50
+typedef struct {
+    int id;
+    char name[24];
+    int age;
+} Record;
+
+typedef struct {
+    Record rows[MAX];
+    int count;
+} Database;
+
+void db_add(Database *db, int id, const char *name, int age) {
+    if (db-&gt;count &lt; MAX) {
+        db-&gt;rows[db-&gt;count++] = (Record){id, "", age};
+        strcpy(db-&gt;rows[db-&gt;count-1].name, name);
+    }
+}
+
+void db_save(Database *db, const char *path) {
+    FILE *f = fopen(path, "w");
+    for (int i = 0; i &lt; db-&gt;count; i++)
+        fprintf(f, "%d %s %d\n", db-&gt;rows[i].id, db-&gt;rows[i].name, db-&gt;rows[i].age);
+    fclose(f);
+}
+
+void db_load(Database *db, const char *path) {
+    FILE *f = fopen(path, "r");
+    if (!f) return;
+    db-&gt;count = 0;
+    while (db-&gt;count &lt; MAX &amp;&amp;
+           fscanf(f, "%d %23s %d", &amp;db-&gt;rows[db-&gt;count].id,
+                  db-&gt;rows[db-&gt;count].name, &amp;db-&gt;rows[db-&gt;count].age) == 3) {
+        db-&gt;count++;
+    }
+    fclose(f);
+}
+
+void db_print(Database *db) {
+    printf("数据库（%d 条）：\n", db-&gt;count);
+    for (int i = 0; i &lt; db-&gt;count; i++)
+        printf("  #%d %s 年龄 %d\n", db-&gt;rows[i].id, db-&gt;rows[i].name, db-&gt;rows[i].age);
+}
+
+int main(void) {
+    Database db = {0};
+    db_add(&amp;db, 1, "Ada", 36);
+    db_add(&amp;db, 2, "Linus", 54);
+    db_add(&amp;db, 3, "Grace", 85);
+    db_print(&amp;db);
+
+    db_save(&amp;db, "db.txt");
+    printf("\n保存后重新加载：\n");
+    Database db2 = {0};
+    db_load(&amp;db2, "db.txt");
+    db_print(&amp;db2);
+    remove("db.txt");
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">数据库（3 条）：
+  #1 Ada 年龄 36
+  #2 Linus 年龄 54
+  #3 Grace 年龄 85
+
+保存后重新加载：
+数据库（3 条）：
+  #1 Ada 年龄 36
+  #2 Linus 年龄 54
+  #3 Grace 年龄 85</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day28
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day27/docs.html"><span class="label">← 前一天</span><span class="title">Day 27</span></a>
+    <a class="next" href="day29/docs.html"><span class="label">后一天 →</span><span class="title">Day 29</span></a>
+  </nav>
+</main>
+</body>
+</html>

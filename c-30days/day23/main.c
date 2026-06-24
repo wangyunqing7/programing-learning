@@ -1,43 +1,41 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 23 天：成绩统计
+ * 多科目结构体 + 聚合统计。
+ */
+typedef struct {
+    char name[16];
+    int math, english, science;
+} Student;
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+int total(const Student *s) {
+    return s->math + s->english + s->science;
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+int cmp_total(const void *a, const void *b) {
+    return total(b) - total(a);  /* 降序 */
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 23: 成绩统计\n");
-    int scores[] = {90, 86, 95}; printf("%.2f\\n", average(scores, 3));
+    Student students[] = {
+        {"Ada", 95, 88, 92},
+        {"Linus", 78, 65, 85},
+        {"Grace", 55, 72, 48},
+        {"Alan", 88, 90, 76},
+    };
+    int n = sizeof(students) / sizeof(students[0]);
+
+    /* 单科统计 */
+    int math_sum = 0;
+    for (int i = 0; i < n; i++) math_sum += students[i].math;
+    printf("数学均分：%.1f\n", (double)math_sum / n);
+
+    /* 按总分排序 */
+    qsort(students, n, sizeof(Student), cmp_total);
+    printf("\n总分排名：\n");
+    for (int i = 0; i < n; i++) {
+        printf("  %d. %-8s 总分 %d\n", i + 1, students[i].name, total(&students[i]));
+    }
     return 0;
 }

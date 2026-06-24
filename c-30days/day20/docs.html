@@ -1,48 +1,99 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 20 天 - 宏</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 20 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 20 天：宏</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>宏和常量</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 20 - 宏</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 20 · 宏</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:66.7%"></span></span>
+      <span class="progress-label">20 / 30</span>
+    </span>
+  </nav>
+
+  <h1>宏</h1>
+  <p class="subtitle">#define 宏和预处理</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>#define 宏和预处理</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li><code>#define 名 值</code> 定义常量或文本替换</li>
+          <li>带参数的宏要给每个参数加括号：<code>#define SQ(x) ((x)*(x))</code></li>
+          <li>宏是文本替换，没有类型检查，复杂逻辑优先用函数</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li><code>#define SQ(x) x*x</code> 然后 <code>SQ(1+2)</code> 变成 <code>1+2*1+2=5</code>，不是 9</li>
+            <li>宏参数有副作用时会执行多次：<code>SQ(i++)</code> 让 i 自增两次</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>写一个 MAX 宏和 MAX 函数，对比它们的差异。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 20 天：宏
+ * 宏的定义与陷阱。
+ */
+
+#define PI 3.14159
+#define MAX(a, b) ((a) &gt; (b) ? (a) : (b))  /* 每个参数和整体都加括号 */
+#define ARRAY_LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
+
+int main(void) {
+    printf("PI = %f\n", PI);
+
+    int x = 10, y = 20;
+    printf("MAX(%d,%d) = %d\n", x, y, MAX(x, y));
+
+    int arr[] = {1, 2, 3, 4, 5};
+    printf("数组长度 = %zu\n", ARRAY_LEN(arr));
+
+    /* 宏的陷阱：不加括号会出错 */
+    printf("\n注意：MAX 宏已正确加括号，SQ(1+2) 类问题要用括号避免\n");
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">PI = 3.141590
+MAX(10,20) = 20
+数组长度 = 5
+
+注意：MAX 宏已正确加括号，SQ(1+2) 类问题要用括号避免</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day20
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day19/docs.html"><span class="label">← 前一天</span><span class="title">Day 19</span></a>
+    <a class="next" href="day21/docs.html"><span class="label">后一天 →</span><span class="title">Day 21</span></a>
+  </nav>
+</main>
+</body>
+</html>

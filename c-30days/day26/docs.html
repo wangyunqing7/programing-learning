@@ -1,48 +1,120 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 26 天 - 环形缓冲区</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 26 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 26 天：环形缓冲区</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>数组模拟队列</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 26 - 环形缓冲区</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 26 · 环形缓冲区</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:86.7%"></span></span>
+      <span class="progress-label">26 / 30</span>
+    </span>
+  </nav>
+
+  <h1>环形缓冲区</h1>
+  <p class="subtitle">定长环形队列</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>定长环形队列</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>环形缓冲区用定长数组 + 头尾索引模拟队列</li>
+          <li>取模运算让索引在范围内循环：<code>i = (i+1) % size</code></li>
+          <li>常用于生产者-消费者、固定长度日志</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>区分「满」和「空」：通常牺牲一个位置，或单独记 count</li>
+            <li>索引取模前先判断，避免负数（无符号更安全）</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>改成能判断空/满的完整队列，实现出队操作。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 26 天：环形缓冲区
+ * 定长环形队列，入队覆盖最旧数据。
+ */
+#define RING_SIZE 4
+
+typedef struct {
+    int data[RING_SIZE];
+    int head;   /* 下一个写入位置 */
+    int count;  /* 当前元素数 */
+} Ring;
+
+void ring_init(Ring *r) { r-&gt;head = 0; r-&gt;count = 0; }
+
+void ring_push(Ring *r, int value) {
+    r-&gt;data[r-&gt;head] = value;
+    r-&gt;head = (r-&gt;head + 1) % RING_SIZE;
+    if (r-&gt;count &lt; RING_SIZE) r-&gt;count++;
+}
+
+void ring_print(Ring *r) {
+    printf("[");
+    /* 从最旧到最新输出 */
+    int start = (r-&gt;count &lt; RING_SIZE) ? 0 : r-&gt;head;
+    for (int i = 0; i &lt; r-&gt;count; i++) {
+        int idx = (start + i) % RING_SIZE;
+        printf(" %d", r-&gt;data[idx]);
+    }
+    printf(" ] (count=%d)\n", r-&gt;count);
+}
+
+int main(void) {
+    Ring r;
+    ring_init(&amp;r);
+
+    for (int i = 1; i &lt;= 6; i++) {
+        ring_push(&amp;r, i);
+        printf("push %d: ", i);
+        ring_print(&amp;r);
+    }
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">push 1: [ 1 ] (count=1)
+push 2: [ 1 2 ] (count=2)
+push 3: [ 1 2 3 ] (count=3)
+push 4: [ 1 2 3 4 ] (count=4)
+push 5: [ 2 3 4 5 ] (count=4)
+push 6: [ 3 4 5 6 ] (count=4)</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day26
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day25/docs.html"><span class="label">← 前一天</span><span class="title">Day 25</span></a>
+    <a class="next" href="day27/docs.html"><span class="label">后一天 →</span><span class="title">Day 27</span></a>
+  </nav>
+</main>
+</body>
+</html>

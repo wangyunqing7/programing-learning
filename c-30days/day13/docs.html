@@ -1,48 +1,109 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 13 天 - 错误返回值</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 13 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 13 天：错误返回值</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>错误处理习惯</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 13 - 错误返回值</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 13 · 错误返回值</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:43.3%"></span></span>
+      <span class="progress-label">13 / 30</span>
+    </span>
+  </nav>
+
+  <h1>错误返回值</h1>
+  <p class="subtitle">用返回码处理错误</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>用返回码处理错误</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>C 没有异常机制，常用返回值表示成功/失败</li>
+          <li>约定：0 成功，非 0 失败；或返回有效值、特殊值（NULL/-1）表示失败</li>
+          <li>输出参数：用指针参数「返回」额外结果</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>忽略函数返回值是最常见的 C bug 来源</li>
+            <li>区分「合法结果」和「错误标记」：比如除法返回 0 可能是结果也可能是错误</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>给 safe_divide 加一个错误信息输出。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 13 天：错误返回值
+ * 用返回码 + 输出参数处理错误。
+ */
+
+/* 返回 0 成功，非 0 失败；结果通过指针输出 */
+int safe_divide(int a, int b, int *result) {
+    if (b == 0) return -1;      /* 除零错误 */
+    if (a % b != 0) return -2;  /* 不能整除 */
+    *result = a / b;
+    return 0;
+}
+
+const char* err_msg(int code) {
+    switch (code) {
+        case 0:   return "成功";
+        case -1:  return "除零错误";
+        case -2:  return "不能整除";
+        default:  return "未知错误";
+    }
+}
+
+int main(void) {
+    int cases[][2] = {{10, 2}, {10, 0}, {10, 3}};
+    for (int i = 0; i &lt; 3; i++) {
+        int result, code = safe_divide(cases[i][0], cases[i][1], &amp;result);
+        if (code == 0) {
+            printf("%d / %d = %d\n", cases[i][0], cases[i][1], result);
+        } else {
+            printf("%d / %d 失败：%s\n", cases[i][0], cases[i][1], err_msg(code));
+        }
+    }
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">10 / 2 = 5
+10 / 0 失败：除零错误
+10 / 3 失败：不能整除</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day13
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day12/docs.html"><span class="label">← 前一天</span><span class="title">Day 12</span></a>
+    <a class="next" href="day14/docs.html"><span class="label">后一天 →</span><span class="title">Day 14</span></a>
+  </nav>
+</main>
+</body>
+</html>

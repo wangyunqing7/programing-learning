@@ -1,48 +1,112 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 17 天 - 函数指针</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 17 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 17 天：函数指针</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>回调</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 17 - 函数指针</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 17 · 函数指针</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:56.7%"></span></span>
+      <span class="progress-label">17 / 30</span>
+    </span>
+  </nav>
+
+  <h1>函数指针</h1>
+  <p class="subtitle">把函数当参数传递</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>把函数当参数传递</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li><code>int (*fp)(int, int)</code> 声明接收两个 int 返回 int 的函数指针</li>
+          <li>函数名就是函数地址，可以赋给指针</li>
+          <li>函数指针常用于回调：让调用者定制行为（如 qsort 的比较函数）</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>函数指针语法复杂，常用 typedef 简化</li>
+            <li>调用前确保指针非 NULL</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>写一个 apply 函数，对数组每个元素应用传入的函数。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 17 天：函数指针
+ * 把运算函数当参数传，实现策略模式。
+ */
+
+/* 定义函数指针类型 */
+typedef int (*BinOp)(int, int);
+
+int op_add(int a, int b) { return a + b; }
+int op_sub(int a, int b) { return a - b; }
+int op_mul(int a, int b) { return a * b; }
+
+/* 用传入的函数做运算 */
+int compute(int a, int b, BinOp op) {
+    return op(a, b);
+}
+
+/* 对数组每个元素应用函数 */
+void map(int *arr, int n, int (*f)(int)) {
+    for (int i = 0; i &lt; n; i++) arr[i] = f(arr[i]);
+}
+
+int square(int x) { return x * x; }
+
+int main(void) {
+    printf("compute(10,3, add) = %d\n", compute(10, 3, op_add));
+    printf("compute(10,3, sub) = %d\n", compute(10, 3, op_sub));
+    printf("compute(10,3, mul) = %d\n", compute(10, 3, op_mul));
+
+    int arr[] = {1, 2, 3, 4};
+    map(arr, 4, square);
+    printf("平方后：");
+    for (int i = 0; i &lt; 4; i++) printf(" %d", arr[i]);
+    printf("\n");
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">compute(10,3, add) = 13
+compute(10,3, sub) = 7
+compute(10,3, mul) = 30
+平方后： 1 4 9 16</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day17
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day16/docs.html"><span class="label">← 前一天</span><span class="title">Day 16</span></a>
+    <a class="next" href="day18/docs.html"><span class="label">后一天 →</span><span class="title">Day 18</span></a>
+  </nav>
+</main>
+</body>
+</html>

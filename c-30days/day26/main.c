@@ -1,43 +1,43 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 26 天：环形缓冲区
+ * 定长环形队列，入队覆盖最旧数据。
+ */
+#define RING_SIZE 4
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+typedef struct {
+    int data[RING_SIZE];
+    int head;   /* 下一个写入位置 */
+    int count;  /* 当前元素数 */
+} Ring;
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+void ring_init(Ring *r) { r->head = 0; r->count = 0; }
+
+void ring_push(Ring *r, int value) {
+    r->data[r->head] = value;
+    r->head = (r->head + 1) % RING_SIZE;
+    if (r->count < RING_SIZE) r->count++;
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+void ring_print(Ring *r) {
+    printf("[");
+    /* 从最旧到最新输出 */
+    int start = (r->count < RING_SIZE) ? 0 : r->head;
+    for (int i = 0; i < r->count; i++) {
+        int idx = (start + i) % RING_SIZE;
+        printf(" %d", r->data[idx]);
+    }
+    printf(" ] (count=%d)\n", r->count);
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 26: 环形缓冲区\n");
-    Ring ring = {{0}, 0, 0}; ring_push(&ring, 7); ring_push(&ring, 9); printf("%d\\n", ring_pop(&ring));
+    Ring r;
+    ring_init(&r);
+
+    for (int i = 1; i <= 6; i++) {
+        ring_push(&r, i);
+        printf("push %d: ", i);
+        ring_print(&r);
+    }
     return 0;
 }

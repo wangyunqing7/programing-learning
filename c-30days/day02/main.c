@@ -1,43 +1,19 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
-
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
-}
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
-
+/* 第 02 天：变量和计算
+ * 温度换算：摄氏转华氏。
+ */
 int main(void) {
-    printf("C Day 02: 变量和计算\n");
-    int count = 3; double price = 12.5; printf("total=%.2f\\n", count * price);
+    double celsius = 26.0;
+    double fahrenheit = celsius * 9.0 / 5.0 + 32.0;
+
+    printf("%.1f 摄氏度 = %.1f 华氏度\n", celsius, fahrenheit);
+
+    /* 整数除法 vs 浮点除法 */
+    int a = 5, b = 2;
+    printf("整数除法 5/2 = %d\n", a / b);      /* 2 */
+    printf("浮点除法 5.0/2.0 = %.2f\n", 5.0 / 2.0); /* 2.50 */
+    printf("取余 5 %% 2 = %d\n", a % b);        /* 1 */
+
     return 0;
 }

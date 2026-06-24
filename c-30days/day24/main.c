@@ -1,43 +1,45 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-#define MAX_VALUE 100
+/* 第 24 天：CSV 解析
+ * 读取 CSV 文件并解析成结构体。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+/* 去掉行尾的换行符 */
+void trim_newline(char *s) {
+    size_t len = strlen(s);
+    while (len > 0 && (s[len-1] == '\n' || s[len-1] == '\r')) {
+        s[--len] = '\0';
+    }
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 24: CSV 解析\n");
-    char line[] = "book,52"; char name[16]; int amount; sscanf(line, "%15[^,],%d", name, &amount); printf("%s %d\\n", name, amount);
+    /* 先写一个 CSV 文件 */
+    const char *path = "grades.csv";
+    FILE *out = fopen(path, "w");
+    fprintf(out, "Ada,95,88\nLinus,78,65\nGrace,55,72\n");
+    fclose(out);
+
+    /* 再读回来解析 */
+    FILE *in = fopen(path, "r");
+    if (!in) { printf("打开失败\n"); return 1; }
+
+    char line[100];
+    printf("%-10s %6s %6s %6s\n", "姓名", "数学", "英语", "合计");
+    printf("------------------------------\n");
+
+    while (fgets(line, sizeof(line), in)) {
+        trim_newline(line);
+        char *name = strtok(line, ",");
+        char *m = strtok(NULL, ",");
+        char *e = strtok(NULL, ",");
+        if (name && m && e) {
+            int math = atoi(m), eng = atoi(e);
+            printf("%-10s %6d %6d %6d\n", name, math, eng, math + eng);
+        }
+    }
+    fclose(in);
+    remove(path);
     return 0;
 }

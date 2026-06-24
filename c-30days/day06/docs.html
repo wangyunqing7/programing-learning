@@ -1,48 +1,100 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 06 天 - 字符串长度</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 06 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 06 天：字符串长度</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>char 数组</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 06 - 字符串长度</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 06 · 字符串长度</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:20.0%"></span></span>
+      <span class="progress-label">6 / 30</span>
+    </span>
+  </nav>
+
+  <h1>字符串长度</h1>
+  <p class="subtitle">字符数组、字符串和 string.h</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>字符数组、字符串和 string.h</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>C 没有真正的字符串类型，用 <code>char</code> 数组 + <code>'\0'</code> 结尾</li>
+          <li><code>&lt;string.h&gt;</code> 提供 <code>strlen/strcpy/strcat/strcmp</code></li>
+          <li>字符串字面量 <code>"abc"</code> 自动加 <code>'\0'</code>，长度 4 不是 3</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li><code>char s[3] = "abc"</code> 溢出，没空间放 <code>'\0'</code></li>
+            <li><code>strcmp</code> 返回 0 表示相等（不是真），容易搞反</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>统计一句话里某个单词出现几次。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+/* 第 06 天：字符串长度
+ * 掌握 C 字符串的基本操作。
+ */
+int main(void) {
+    char greet[] = "Hello, C";
+    printf("字符串：\"%s\"\n", greet);
+    printf("strlen 长度：%zu\n", strlen(greet));      /* 不含 \0 */
+    printf("sizeof 占用：%zu\n", sizeof(greet));      /* 含 \0 */
+
+    /* strcpy 复制，strcat 拼接 */
+    char buf[50];
+    strcpy(buf, greet);
+    strcat(buf, " learner");
+    printf("拼接后：%s\n", buf);
+
+    /* strcmp 比较 */
+    printf("比较 \"abc\" 和 \"abd\"：%d\n", strcmp("abc", "abd")); /* 负数 */
+    printf("比较 \"abc\" 和 \"abc\"：%d\n", strcmp("abc", "abc")); /* 0 表示相等 */
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">字符串："Hello, C"
+strlen 长度：8
+sizeof 占用：9
+拼接后：Hello, C learner
+比较 "abc" 和 "abd"：-1
+比较 "abc" 和 "abc"：0</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day06
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day05/docs.html"><span class="label">← 前一天</span><span class="title">Day 05</span></a>
+    <a class="next" href="day07/docs.html"><span class="label">后一天 →</span><span class="title">Day 07</span></a>
+  </nav>
+</main>
+</body>
+</html>

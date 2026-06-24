@@ -1,48 +1,114 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 18 天 - 递归</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 18 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 18 天：递归</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>递归函数</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 18 - 递归</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 18 · 递归</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:60.0%"></span></span>
+      <span class="progress-label">18 / 30</span>
+    </span>
+  </nav>
+
+  <h1>递归</h1>
+  <p class="subtitle">函数调用自己</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>函数调用自己</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>递归必须有「基线情况」（停止条件）和「递推情况」</li>
+          <li>经典例子：阶乘、斐波那契、汉诺塔</li>
+          <li>递归有栈开销，深层递归可能栈溢出</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>没有基线情况会无限递归直到栈溢出</li>
+            <li>重复计算：朴素递归求斐波那契效率极低（指数级）</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>用递归实现二分查找。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 18 天：递归
+ * 阶乘、斐波那契、汉诺塔。
+ */
+
+int factorial(int n) {
+    if (n &lt;= 1) return 1;       /* 基线 */
+    return n * factorial(n - 1); /* 递推 */
+}
+
+int fib(int n) {
+    if (n &lt; 2) return n;
+    return fib(n - 1) + fib(n - 2);
+}
+
+/* 汉诺塔：把 n 个盘从 from 经 by 移到 to */
+void hanoi(int n, char from, char by, char to) {
+    if (n == 0) return;
+    hanoi(n - 1, from, to, by);
+    printf("  %c -&gt; %c\n", from, to);
+    hanoi(n - 1, by, from, to);
+}
+
+int main(void) {
+    printf("5! = %d\n", factorial(5));
+    printf("斐波那契前 10 项：");
+    for (int i = 0; i &lt; 10; i++) printf(" %d", fib(i));
+    printf("\n\n汉诺塔 3 盘步骤：\n");
+    hanoi(3, 'A', 'B', 'C');
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">5! = 120
+斐波那契前 10 项： 0 1 1 2 3 5 8 13 21 34
+
+汉诺塔 3 盘步骤：
+  A -> C
+  A -> B
+  C -> B
+  A -> C
+  B -> A
+  B -> C
+  A -> C</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day18
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day17/docs.html"><span class="label">← 前一天</span><span class="title">Day 17</span></a>
+    <a class="next" href="day19/docs.html"><span class="label">后一天 →</span><span class="title">Day 19</span></a>
+  </nav>
+</main>
+</body>
+</html>
