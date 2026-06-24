@@ -1,47 +1,89 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 19 天 - 路径整理器</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 19 天</span></nav>
-        <h1>Python 30 天学习项目 第 19 天：路径整理器</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>pathlib 路径操作</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 19 - 路径整理器</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 19 · 路径整理器</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:63.3%"></span></span>
+      <span class="progress-label">19 / 30</span>
+    </span>
+  </nav>
+
+  <h1>路径整理器</h1>
+  <p class="subtitle">pathlib 路径分析（不碰磁盘）</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>区分 <code>PurePath</code>（纯分析）和 <code>Path</code>（碰磁盘）</li>
+        <li>取路径的各部分：suffix/name/parent/anchor</li>
+        <li>按分隔符判断 Windows/Posix 路径</li>
+        <li>统计扩展名分布</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>PurePath</strong>：只做字符串层面的路径分析，不访问文件系统，安全且跨平台。<code>PureWindowsPath</code> 认反斜杠，<code>PurePosixPath</code> 认正斜杠。</p>
+        <p><strong>路径属性</strong>：<code>.suffix</code> 扩展名、<code>.name</code> 文件名、<code>.parent</code> 父目录、<code>.anchor</code> 盘符/根。</p>
+        <p><strong>拆分</strong>：分析路径就是把这些属性拼回来理解它的结构。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li><code>PurePath</code> 不检查文件是否存在，要判断存在性用 <code>Path.exists()</code>。</li>
+          <li>扩展名大小写不统一，统计前要 <code>.lower()</code>。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>把重复的文件名标出来。</li>
+          <li>识别路径里的无效字符。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">from pathlib import PurePath, PureWindowsPath, PurePosixPath
+
+def normalize(raw):
+    return PureWindowsPath(raw) if "\\" in raw else PurePosixPath(raw)
+
+def summarize(paths):
+    exts = {}
+    for raw in paths:
+        p = normalize(raw)
+        ext = p.suffix.lower() or "(无)"
+        exts[ext] = exts.get(ext, 0) + 1
+        print(p.anchor, p.parent, p.name)</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">路径                          根      父目录          文件名
+C:\Users\ada\project\main.py   C:\     C:\Users\ada\project  main.py
+/home/linus/app/utils.py       /       /home/linus/app       utils.py
+扩展名统计： {'.py': 2, '.md': 1, '.log': 1}</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day18/docs.html"><span class="label">← 前一天</span><span class="title">Day 18 日期计划表</span></a>
+    <a class="next" href="day20/docs.html"><span class="label">后一天 →</span><span class="title">Day 20 参数解析器</span></a>
+  </nav>
+</main>
+</body>
+</html>

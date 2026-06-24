@@ -1,47 +1,89 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 18 天 - 日期计划表</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 18 天</span></nav>
-        <h1>Python 30 天学习项目 第 18 天：日期计划表</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>datetime 模块</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 18 - 日期计划表</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 18 · 日期计划表</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:60.0%"></span></span>
+      <span class="progress-label">18 / 30</span>
+    </span>
+  </nav>
+
+  <h1>日期计划表</h1>
+  <p class="subtitle">datetime、timedelta、日期运算</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>date/timedelta</code> 做日期运算</li>
+        <li>用 <code>weekday()</code> 取星期几</li>
+        <li>计算两个日期的间隔（倒计时）</li>
+        <li>用 <code>.isoformat()</code> 标准化输出</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>timedelta</strong>：表示时间差，<code>date + timedelta(days=n)</code> 得到 n 天后的日期。</p>
+        <p><strong>weekday()</strong>：返回 0（周一）到 6（周日），显示时要 +1。</p>
+        <p><strong>日期相减</strong>：<code>date1 - date2</code> 得到 timedelta，<code>.days</code> 取天数。未来日期相减为正，过去为负。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li><code>weekday()</code> 返回 0-6，不是 1-7。</li>
+          <li>日期相减结果是 timedelta 对象，要 <code>.days</code> 才能拿到整数。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>跳过周末排期（只在工作日安排任务）。</li>
+          <li>加上具体时刻（用 datetime 而非 date）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">from datetime import date, timedelta
+
+@dataclass
+class Plan:
+    start: date
+    tasks: list[str]
+    def schedule(self):
+        return [(self.start + timedelta(days=i), t)
+                for i, t in enumerate(self.tasks)]
+    def countdown(self, today, target):
+        return (target - today).days</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">今天：2026-06-24（周3）
+  2026-06-24 [今天] 基础语法
+  2026-06-25 [+1天] 数据结构
+  2026-06-26 [+2天] 函数
+距离计划最后一天（2026-06-28）还有 4 天</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day17/docs.html"><span class="label">← 前一天</span><span class="title">Day 17 CSV 成绩表</span></a>
+    <a class="next" href="day19/docs.html"><span class="label">后一天 →</span><span class="title">Day 19 路径整理器</span></a>
+  </nav>
+</main>
+</body>
+</html>

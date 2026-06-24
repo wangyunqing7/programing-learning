@@ -1,47 +1,92 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 17 天 - CSV 成绩表</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 17 天</span></nav>
-        <h1>Python 30 天学习项目 第 17 天：CSV 成绩表</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>csv 模块</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 17 - CSV 成绩表</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 17 · CSV 成绩表</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:56.7%"></span></span>
+      <span class="progress-label">17 / 30</span>
+    </span>
+  </nav>
+
+  <h1>CSV 成绩表</h1>
+  <p class="subtitle">csv 读写、聚合统计、排序</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>csv.DictWriter/DictReader</code> 读写 CSV</li>
+        <li>理解为什么要 <code>newline=''</code></li>
+        <li>读 CSV 时做类型转换（字符串→int）</li>
+        <li>用 <code>sorted(key=...)</code> 多条件排序</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>DictWriter</strong>：按字段名写，<code>writeheader()</code> 写表头，<code>writerows()</code> 批量写。</p>
+        <p><strong>newline=''</strong>：Windows 上 csv 模块要这么开文件，否则会产生空行。</p>
+        <p><strong>类型转换</strong>：CSV 读出来全是字符串，分数要 <code>int(r['math'])</code> 转换才能比较/相加。</p>
+        <p><strong>排序 key</strong>：<code>key=lambda r: -(r['math']+...)</code> 用负号实现降序。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>Windows 下不写 <code>newline=''</code> 会有空行。</li>
+          <li>忘做类型转换，字符串比较会按字典序（'9' &gt; '80' 出错）。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>按科目分别生成单独的 CSV。</li>
+          <li>导出成带格式的 Markdown 表格。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">import csv
+
+def write_csv(path, rows):
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["name","math","english","python"])
+        w.writeheader()
+        w.writerows(rows)
+
+def report(rows):
+    for subj in ("math","english","python"):
+        scores = [r[subj] for r in rows]
+        print(statistics.mean(scores), max(scores), min(scores))</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">统计报告：
+  math     均 76.0  最高 95  最低 55
+  排名：
+    1. Ada      275
+    2. Linus    228
+边界测试：cannot calculate statistics with empty data</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day16/docs.html"><span class="label">← 前一天</span><span class="title">Day 16 CLI 菜单模拟</span></a>
+    <a class="next" href="day18/docs.html"><span class="label">后一天 →</span><span class="title">Day 18 日期计划表</span></a>
+  </nav>
+</main>
+</body>
+</html>
