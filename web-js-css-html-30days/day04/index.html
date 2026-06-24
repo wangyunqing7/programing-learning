@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 04 天 - 待办卡片</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 04 · 待办</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:400px;margin:0 auto;background:#fff;border-radius:12px;padding:24px}input{padding:8px;width:65%;border:1px solid #cbd5e1;border-radius:6px}button{padding:8px 16px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}li{padding:10px;border-bottom:1px solid #eee;cursor:pointer;list-style:none}li.done{text-decoration:line-through;color:#94a3b8}</style></head><body><div class="box"><h2>待办列表</h2><input id="i" placeholder="回车添加"><button onclick="add()">添加</button><ul id="l"></ul></div><script>let t=[{s:"学HTML",d:0},{s:"学CSS",d:0},{s:"学JS",d:0}];const inp=document.getElementById("i"),l=document.getElementById("l");function r(){l.innerHTML=t.map((x,i)=>'<li class="'+(x.d?'done':'')+'" onclick="tg('+i+')">'+x.s+'</li>').join("")}function add(){const v=inp.value.trim();if(v){t.push({s:v,d:0});inp.value="";r()}}function tg(i){t[i].d=!t[i].d;r()}inp.addEventListener("keydown",e=>{if(e.key==="Enter")add()});r()</script></body></html>

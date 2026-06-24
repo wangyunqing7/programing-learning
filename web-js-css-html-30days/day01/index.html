@@ -1,13 +1,35 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 01 天 - 个人名片</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Day 01 · 个人名片</title>
+<style>
+  body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px;display:flex;justify-content:center}
+  .card{background:#fff;border-radius:16px;padding:32px;width:320px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center}
+  .avatar{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#0f5cc0,#0d9488);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;font-weight:bold}
+  h1{margin:0 0 4px;color:#182033}
+  .title{color:#64748b;margin:0 0 16px}
+  .bio{color:#475569;line-height:1.6;font-size:14px}
+  button{margin-top:16px;padding:8px 20px;border:none;border-radius:8px;background:#0f5cc0;color:#fff;cursor:pointer;font-size:14px}
+  button:hover{background:#0b4a99}
+</style>
 </head>
 <body>
-  <main id="app"></main>
-  <script src="script.js"></script>
+<div class="card">
+  <div class="avatar" id="avatar">A</div>
+  <h1 id="name">Ada</h1>
+  <p class="title">前端学习者</p>
+  <p class="bio" id="bio">正在 30 天前端之旅。</p>
+  <button onclick="toggle()">切换名字</button>
+</div>
+<script>
+  let t=false;
+  function toggle(){
+    t=!t;
+    document.getElementById("name").textContent=t?"Linus":"Ada";
+    document.getElementById("avatar").textContent=t?"L":"A";
+  }
+</script>
 </body>
 </html>

@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 16 天 - 拖放排序演示</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 16 · 拖放</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:300px;margin:0 auto}.item{background:#fff;padding:14px;margin-bottom:8px;border-radius:8px;cursor:grab;border:2px solid transparent}.item.dr{opacity:.5}.item.ov{border-color:#0f5cc0}</style></head><body><div class="box" id="l"><div class="item" draggable="true">第一项</div><div class="item" draggable="true">第二项</div><div class="item" draggable="true">第三项</div><div class="item" draggable="true">第四项</div></div><script>let d=null;document.querySelectorAll(".item").forEach(i=>{i.addEventListener("dragstart",e=>{d=i;i.classList.add("dr")});i.addEventListener("dragend",()=>i.classList.remove("dr"));i.addEventListener("dragover",e=>{e.preventDefault();i.classList.add("ov")});i.addEventListener("dragleave",()=>i.classList.remove("ov"));i.addEventListener("drop",e=>{e.preventDefault();i.classList.remove("ov");l.insertBefore(d,i)})})</script></body></html>

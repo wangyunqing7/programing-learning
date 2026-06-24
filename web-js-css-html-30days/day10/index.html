@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 10 天 - 标签过滤</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 10 · 标签过滤</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:500px;margin:0 auto}.tags{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.tag{padding:6px 14px;background:#fff;border:1px solid #cbd5e1;border-radius:999px;cursor:pointer}.tag.on{background:#0f5cc0;color:#fff;border-color:#0f5cc0}.item{background:#fff;padding:12px 16px;border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between}.cat{font-size:12px;color:#0f5cc0;background:#e0f2fe;padding:2px 8px;border-radius:4px}</style></head><body><div class="box"><div class="tags" id="tg"></div><div id="ls"></div></div><script>const it=[{n:"Python教程",c:"书"},{n:"机械键盘",c:"硬件"},{n:"C++ Primer",c:"书"},{n:"显示器",c:"硬件"}];const cats=["全部",...new Set(it.map(i=>i.c))];let act="全部";const tg=document.getElementById("tg"),ls=document.getElementById("ls");function rt(){tg.innerHTML=cats.map(c=>'<div class="tag '+(c===act?'on':'')+'" onclick="set(''+c+'')">'+c+'</div>').join("")}function set(c){act=c;rt();rl()}function rl(){const sh=act==="全部"?it:it.filter(i=>i.c===act);ls.innerHTML=sh.map(i=>'<div class="item"><span>'+i.n+'</span><span class="cat">'+i.c+'</span></div>').join("")}rt();rl()</script></body></html>

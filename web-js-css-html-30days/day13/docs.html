@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 13 天 - 折叠面板</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 13 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 13 天：折叠面板</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>事件委托</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 13 - 折叠面板</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 13 · 折叠面板</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:43.3%"></span></span>
+      <span class="progress-label">13 / 30</span>
+    </span>
+  </nav>
+  <h1>折叠面板</h1>
+  <p class="subtitle">事件委托</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>折叠面板</strong>，掌握 事件委托。</p>
+      <section><h3>知识点</h3><ul>
+          <li>点击展开收起</li>
+          <li>事件委托父元素监听</li>
+          <li>max-height 过渡动画</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>委托比逐个绑定高效</li>
+            <li>max-height 设足够大值</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>做手风琴效果。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 13 · 折叠面板&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:500px;margin:0 auto}.item{background:#fff;border-radius:8px;margin-bottom:8px;overflow:hidden}.hd{padding:14px 18px;cursor:pointer}.bd{max-height:0;overflow:hidden;transition:max-height .3s;padding:0 18px}.item.op .bd{max-height:100px;padding:0 18px 14px}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="box" id="b"&gt;&lt;div class="item"&gt;&lt;div class="hd"&gt;什么是 HTML？&lt;/div&gt;&lt;div class="bd"&gt;超文本标记语言，描述结构。&lt;/div&gt;&lt;/div&gt;&lt;div class="item"&gt;&lt;div class="hd"&gt;什么是 CSS？&lt;/div&gt;&lt;div class="bd"&gt;层叠样式表，控制外观。&lt;/div&gt;&lt;/div&gt;&lt;div class="item"&gt;&lt;div class="hd"&gt;什么是 JS？&lt;/div&gt;&lt;div class="bd"&gt;JavaScript，让网页交互。&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.getElementById("b").addEventListener("click",e=&gt;{const h=e.target.closest(".hd");if(h)h.parentElement.classList.toggle("op")})&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day12/docs.html"><span class="label">← 前一天</span><span class="title">Day 12</span></a>
+    <a class="next" href="day14/docs.html"><span class="label">后一天 →</span><span class="title">Day 14</span></a>
+  </nav>
+</main>
+</body>
+</html>

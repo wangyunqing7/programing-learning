@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 21 天 - 搜索高亮</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 21 · 搜索高亮</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:400px;margin:0 auto}input{width:100%;box-sizing:border-box;padding:10px;border:1px solid #cbd5e1;border-radius:6px;margin-bottom:12px}.item{background:#fff;padding:12px;border-radius:6px;margin-bottom:6px}mark{background:#fde047;padding:1px 3px;border-radius:2px}</style></head><body><div class="box"><input id="q" placeholder="搜索水果" oninput="se()"><div id="l"></div></div><script>const fs=["苹果","香蕉","橙子","葡萄","西瓜","草莓","蓝莓"];function se(){const q=document.getElementById("q").value.trim();const sh=fs.filter(f=>!q||f.includes(q));document.getElementById("l").innerHTML=sh.map(f=>{if(!q)return'<div class="item">'+f+"</div>";const i=f.indexOf(q);return'<div class="item">'+f.slice(0,i)+"<mark>"+q+"</mark>"+f.slice(i+q.length)+"</div>"}).join("")||"<div class='item'>无结果</div>"}se()</script></body></html>

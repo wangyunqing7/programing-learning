@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 08 天 - 计算器</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 08 · 计算器</title><style>body{font-family:system-ui;background:#f0f4f8;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}.calc{background:#273449;padding:16px;border-radius:12px;width:240px}#s{background:#182033;color:#fff;padding:16px;font-size:28px;text-align:right;border-radius:8px;margin-bottom:12px;min-height:32px}.k{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}button{padding:16px;font-size:18px;border:none;border-radius:8px;cursor:pointer;background:#475569;color:#fff}button:hover{background:#64748b}.op{background:#0f5cc0}.eq{background:#0d9488}</style></head><body><div class="calc"><div id="s">0</div><div class="k"><button onclick="p(7)">7</button><button onclick="p(8)">8</button><button onclick="p(9)">9</button><button class="op" onclick="p('/')">/</button><button onclick="p(4)">4</button><button onclick="p(5)">5</button><button onclick="p(6)">6</button><button class="op" onclick="p('*')">×</button><button onclick="p(1)">1</button><button onclick="p(2)">2</button><button onclick="p(3)">3</button><button class="op" onclick="p('-')">-</button><button onclick="p(0)">0</button><button onclick="p('.')">.</button><button class="eq" onclick="c()">=</button><button class="op" onclick="p('+')">+</button><button onclick="cl()" style="grid-column:span 4">清除</button></div></div><script>let e="";const s=document.getElementById("s");function p(x){e+=x;s.textContent=e}function c(){try{s.textContent=eval(e);e=s.textContent}catch(z){s.textContent="错误"}}function cl(){e="";s.textContent="0"}</script></body></html>

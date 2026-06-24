@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 27 天 - 天气卡片模拟</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 27 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 27 天：天气卡片模拟</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>组件化渲染</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 27 - 天气卡片</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 27 · 天气卡片</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:90.0%"></span></span>
+      <span class="progress-label">27 / 30</span>
+    </span>
+  </nav>
+  <h1>天气卡片</h1>
+  <p class="subtitle">组件化渲染</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>天气卡片</strong>，掌握 组件化渲染。</p>
+      <section><h3>知识点</h3><ul>
+          <li>数据数组渲染多个卡片</li>
+          <li>卡片可复用结构</li>
+          <li>模拟天气数据</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>组件化可复用</li>
+            <li>数据变只更新一处</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加点击展开。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 27 · 天气卡片&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.g{max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}.card{background:linear-gradient(135deg,#0f5cc0,#3b82f6);color:#fff;padding:20px;border-radius:16px;text-align:center}.card.hot{background:linear-gradient(135deg,#ef4444,#f59e0b)}.city{font-size:18px}.temp{font-size:42px;margin:8px 0}.desc{opacity:.9}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="g" id="g"&gt;&lt;/div&gt;&lt;script&gt;const d=[{city:"北京",t:32,d:"晴"},{city:"上海",t:28,d:"多云"},{city:"广州",t:35,d:"雷阵雨"},{city:"哈尔滨",t:18,d:"小雨"}];document.getElementById("g").innerHTML=d.map(w=&gt;'&lt;div class="card '+(w.t&gt;=30?"hot":"")+'"&gt;&lt;div class="city"&gt;'+w.city+'&lt;/div&gt;&lt;div class="temp"&gt;'+w.t+'°&lt;/div&gt;&lt;div class="desc"&gt;'+w.d+"&lt;/div&gt;&lt;/div&gt;").join("")&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day26/docs.html"><span class="label">← 前一天</span><span class="title">Day 26</span></a>
+    <a class="next" href="day28/docs.html"><span class="label">后一天 →</span><span class="title">Day 28</span></a>
+  </nav>
+</main>
+</body>
+</html>

@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 27 天 - 天气卡片模拟</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 27 · 天气卡片</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.g{max-width:700px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}.card{background:linear-gradient(135deg,#0f5cc0,#3b82f6);color:#fff;padding:20px;border-radius:16px;text-align:center}.card.hot{background:linear-gradient(135deg,#ef4444,#f59e0b)}.city{font-size:18px}.temp{font-size:42px;margin:8px 0}.desc{opacity:.9}</style></head><body><div class="g" id="g"></div><script>const d=[{city:"北京",t:32,d:"晴"},{city:"上海",t:28,d:"多云"},{city:"广州",t:35,d:"雷阵雨"},{city:"哈尔滨",t:18,d:"小雨"}];document.getElementById("g").innerHTML=d.map(w=>'<div class="card '+(w.t>=30?"hot":"")+'"><div class="city">'+w.city+'</div><div class="temp">'+w.t+'°</div><div class="desc">'+w.d+"</div></div>").join("")</script></body></html>

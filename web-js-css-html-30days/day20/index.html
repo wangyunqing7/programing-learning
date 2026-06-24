@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 20 天 - 表格排序</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 20 · 表格排序</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}table{border-collapse:collapse;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;width:400px}th,td{padding:12px 20px;text-align:left;border-bottom:1px solid #eee}th{background:#0f5cc0;color:#fff;cursor:pointer}th:hover{background:#0b4a99}</style></head><body><table><thead><tr><th onclick="st('name')">姓名</th><th onclick="st('score')">分数</th></tr></thead><tbody id="b"></tbody></table><script>let d=[{name:"Ada",score:95},{name:"Linus",score:78},{name:"Grace",score:88}],key="name",asc=true;function r(){document.getElementById("b").innerHTML=d.map(x=>"<tr><td>"+x.name+"</td><td>"+x.score+"</td></tr>").join("")}function st(k){key=k;asc=!asc;d.sort((a,b)=>{let s=a[k]>b[k]?1:-1;return asc?s:-s});r()}r()</script></body></html>

@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 11 天 - 模态框</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 11 · 模态框</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:60px;text-align:center}.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;justify-content:center;align-items:center}.ov.on{display:flex}.md{background:#fff;padding:32px;border-radius:12px;width:300px}button{padding:8px 20px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}</style></head><body><button onclick="op()">打开对话框</button><div class="ov" id="o" onclick="cl()"><div class="md" onclick="event.stopPropagation()"><h2>提示</h2><p>点外面或按钮关闭</p><button onclick="cl()">确定</button></div></div><script>function op(){document.getElementById("o").classList.add("on")}function cl(){document.getElementById("o").classList.remove("on")}</script></body></html>

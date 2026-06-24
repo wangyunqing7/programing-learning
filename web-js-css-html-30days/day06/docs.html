@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 06 天 - 图片画廊</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 06 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 06 天：图片画廊</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>Grid 布局和数组数据</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 06 - 图片画廊</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 06 · 图片画廊</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:20.0%"></span></span>
+      <span class="progress-label">6 / 30</span>
+    </span>
+  </nav>
+  <h1>图片画廊</h1>
+  <p class="subtitle">Grid 布局和数组数据</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>图片画廊</strong>，掌握 Grid 布局和数组数据。</p>
+      <section><h3>知识点</h3><ul>
+          <li>grid auto-fill 自适应列</li>
+          <li>JS 动态生成卡片</li>
+          <li>色块代替图片演示</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>图片设 width 100% 自适应</li>
+            <li>auto-fill 让列数自动变</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加点击放大灯箱。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 06 · 画廊&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.i{background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;transition:.2s}.i:hover{transform:scale(1.03)}.sw{height:120px}.c{padding:8px;text-align:center;font-size:13px}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="g" id="g"&gt;&lt;/div&gt;&lt;script&gt;const cs=[["珊瑚红","#ef4444"],["海洋蓝","#0f5cc0"],["薄荷绿","#10b981"],["向日葵","#f59e0b"],["紫罗兰","#8b5cf6"],["青绿","#0d9488"],["玫瑰粉","#ec4899"],["石墨灰","#475569"]];document.getElementById("g").innerHTML=cs.map(([n,c])=&gt;'&lt;div class="i"&gt;&lt;div class="sw" style="background:'+c+'"&gt;&lt;/div&gt;&lt;div class="c"&gt;'+n+'&lt;/div&gt;&lt;/div&gt;').join("")&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day05/docs.html"><span class="label">← 前一天</span><span class="title">Day 05</span></a>
+    <a class="next" href="day07/docs.html"><span class="label">后一天 →</span><span class="title">Day 07</span></a>
+  </nav>
+</main>
+</body>
+</html>

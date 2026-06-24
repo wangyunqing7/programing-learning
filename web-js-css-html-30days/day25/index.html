@@ -1,13 +1,5 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 25 天 - Markdown 预览</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 25 · Markdown 预览</title><style>body{font-family:system-ui;margin:0;padding:20px;background:#f0f4f8}.w{max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}textarea{height:300px;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-family:monospace}.pv{background:#fff;padding:16px;border-radius:8px;height:300px;overflow:auto}.pv h1{color:#0f5cc0}</style></head><body><div class="w"><textarea id="md" oninput="r()"># 标题
+这是 **加粗** 文字。
+- 列表项 1
+- 列表项 2
+[链接](https://example.com)</textarea><div class="pv" id="o"></div></div><script>function r(){let t=document.getElementById("md").value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/^### (.*)$/gm,"<h3>$1</h3>").replace(/^## (.*)$/gm,"<h2>$1</h2>").replace(/^# (.*)$/gm,"<h1>$1</h1>").replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2">$1</a>').replace(/^- (.*)$/gm,"<li>$1</li>").replace(/(<li>.*<\/li>)/s,"<ul>$1</ul>");document.getElementById("o").innerHTML=t}r()</script></body></html>
