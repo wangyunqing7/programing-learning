@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 28 天 - 可访问性表单</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 28 · 可访问性表单</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}form{max-width:380px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}label{display:block;margin:12px 0 4px}input{width:100%;box-sizing:border-box;padding:10px;border:2px solid #cbd5e1;border-radius:6px}input:focus{outline:none;border-color:#0f5cc0;box-shadow:0 0 0 3px rgba(15,92,192,.2)}button{margin-top:16px;width:100%;padding:12px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}button:focus{outline:3px solid #0d9488;outline-offset:2px}</style></head><body><form onsubmit="return false"><h2>无障碍表单</h2><label for="u">用户名</label><input id="u" aria-describedby="h" required><small id="h" style="color:#64748b">3-20 个字符</small><label for="m">邮箱</label><input id="m" type="email" required><button type="submit">提交（用 Tab 试试键盘）</button></form></body></html>

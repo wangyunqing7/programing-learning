@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 04 天 - 待办卡片</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 04 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 04 天：待办卡片</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>数组渲染列表</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 04 - 待办卡片</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 04 · 待办卡片</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:13.3%"></span></span>
+      <span class="progress-label">4 / 30</span>
+    </span>
+  </nav>
+  <h1>待办卡片</h1>
+  <p class="subtitle">数组渲染列表</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>待办卡片</strong>，掌握 数组渲染列表。</p>
+      <section><h3>知识点</h3><ul>
+          <li>数组存数据，JS 动态生成 DOM</li>
+          <li>map().join() 转成 HTML</li>
+          <li>点击切换完成状态</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>重新渲染比逐个操作简单</li>
+            <li>innerHTML 注意数据可控</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加删除按钮。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 04 · 待办&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:400px;margin:0 auto;background:#fff;border-radius:12px;padding:24px}input{padding:8px;width:65%;border:1px solid #cbd5e1;border-radius:6px}button{padding:8px 16px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}li{padding:10px;border-bottom:1px solid #eee;cursor:pointer;list-style:none}li.done{text-decoration:line-through;color:#94a3b8}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="box"&gt;&lt;h2&gt;待办列表&lt;/h2&gt;&lt;input id="i" placeholder="回车添加"&gt;&lt;button onclick="add()"&gt;添加&lt;/button&gt;&lt;ul id="l"&gt;&lt;/ul&gt;&lt;/div&gt;&lt;script&gt;let t=[{s:"学HTML",d:0},{s:"学CSS",d:0},{s:"学JS",d:0}];const inp=document.getElementById("i"),l=document.getElementById("l");function r(){l.innerHTML=t.map((x,i)=&gt;'&lt;li class="'+(x.d?'done':'')+'" onclick="tg('+i+')"&gt;'+x.s+'&lt;/li&gt;').join("")}function add(){const v=inp.value.trim();if(v){t.push({s:v,d:0});inp.value="";r()}}function tg(i){t[i].d=!t[i].d;r()}inp.addEventListener("keydown",e=&gt;{if(e.key==="Enter")add()});r()&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day03/docs.html"><span class="label">← 前一天</span><span class="title">Day 03</span></a>
+    <a class="next" href="day05/docs.html"><span class="label">后一天 →</span><span class="title">Day 05</span></a>
+  </nav>
+</main>
+</body>
+</html>

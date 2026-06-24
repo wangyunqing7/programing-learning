@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 14 天 - 本地备忘录</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 14 · 备忘录</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:400px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}textarea{width:100%;box-sizing:border-box;padding:8px;border:1px solid #cbd5e1;border-radius:6px}button{margin-top:8px;padding:8px 16px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}.note{background:#f8fafc;padding:10px;margin-top:8px;border-radius:6px;border-left:3px solid #0f5cc0}</style></head><body><div class="box"><h2>备忘录</h2><textarea id="i" rows="3" placeholder="写点什么"></textarea><button onclick="sv()">保存</button><div id="ns"></div></div><script>let ns=JSON.parse(localStorage.getItem("ns")||"[]");function r(){document.getElementById("ns").innerHTML=ns.map(n=>'<div class="note">'+n+'</div>').join("")}function sv(){const v=document.getElementById("i").value.trim();if(v){ns.unshift(v);localStorage.setItem("ns",JSON.stringify(ns));document.getElementById("i").value="";r()}}r()</script></body></html>

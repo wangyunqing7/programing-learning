@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 05 天 - 表单校验</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 05 · 表单校验</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}form{max-width:360px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}label{display:block;margin:12px 0 4px}input{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:6px;box-sizing:border-box}input.bad{border-color:#ef4444}.e{color:#ef4444;font-size:12px;min-height:16px}button{margin-top:16px;width:100%;padding:10px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}</style></head><body><form onsubmit="return go(event)"><h2>注册</h2><label>邮箱</label><input id="em" oninput="ck()"><div class="e" id="ee"></div><label>密码(至少6位)</label><input id="pw" type="password" oninput="ck()"><div class="e" id="pe"></div><button type="submit">提交</button></form><script>function ck(){const e=document.getElementById("em"),p=document.getElementById("pw");const ek=/^[^@]+@[^@]+\.[^@]+$/.test(e.value),pk=p.value.length>=6;e.classList.toggle("bad",e.value&&!ek);p.classList.toggle("bad",p.value&&!pk);document.getElementById("ee").textContent=e.value&&!ek?"邮箱格式错":"";document.getElementById("pe").textContent=p.value&&!pk?"至少6位":"";return ek&&pk}function go(ev){ev.preventDefault();if(ck())alert("成功！")}</script></body></html>

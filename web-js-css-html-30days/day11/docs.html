@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 11 天 - 模态框</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 11 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 11 天：模态框</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>显示/隐藏交互</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 11 - 模态框</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 11 · 模态框</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:36.7%"></span></span>
+      <span class="progress-label">11 / 30</span>
+    </span>
+  </nav>
+  <h1>模态框</h1>
+  <p class="subtitle">显示隐藏交互</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>模态框</strong>，掌握 显示隐藏交互。</p>
+      <section><h3>知识点</h3><ul>
+          <li>默认 display none 点击切换</li>
+          <li>遮罩层点击关闭</li>
+          <li>opacity 过渡淡入</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>遮罩覆盖全屏置顶层</li>
+            <li>点内容不关闭要 stopPropagation</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加 ESC 关闭。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 11 · 模态框&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:60px;text-align:center}.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;justify-content:center;align-items:center}.ov.on{display:flex}.md{background:#fff;padding:32px;border-radius:12px;width:300px}button{padding:8px 20px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;button onclick="op()"&gt;打开对话框&lt;/button&gt;&lt;div class="ov" id="o" onclick="cl()"&gt;&lt;div class="md" onclick="event.stopPropagation()"&gt;&lt;h2&gt;提示&lt;/h2&gt;&lt;p&gt;点外面或按钮关闭&lt;/p&gt;&lt;button onclick="cl()"&gt;确定&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;script&gt;function op(){document.getElementById("o").classList.add("on")}function cl(){document.getElementById("o").classList.remove("on")}&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day10/docs.html"><span class="label">← 前一天</span><span class="title">Day 10</span></a>
+    <a class="next" href="day12/docs.html"><span class="label">后一天 →</span><span class="title">Day 12</span></a>
+  </nav>
+</main>
+</body>
+</html>

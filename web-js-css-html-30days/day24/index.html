@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 24 天 - 番茄钟</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 24 · 番茄钟</title><style>body{font-family:system-ui;background:#f0f4f8;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}.box{background:#fff;padding:40px;border-radius:16px;text-align:center;width:280px}#t{font-size:64px;color:#0f5cc0;margin:16px 0}button{padding:10px 24px;margin:0 6px;border:none;border-radius:8px;background:#0f5cc0;color:#fff;cursor:pointer}</style></head><body><div class="box"><h2 id="m">工作时间</h2><div id="t">25:00</div><button id="b" onclick="tg()">开始</button><button onclick="rs()">重置</button></div><script>let w=1,left=25*60,run=false,tm=null;const t=document.getElementById("t"),b=document.getElementById("b"),m=document.getElementById("m");function fm(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}function r(){t.textContent=fm(left)}function tg(){if(run){clearInterval(tm);run=false;b.textContent="开始"}else{tm=setInterval(()=>{left--;r();if(left<=0){clearInterval(tm);run=false;w=!w;left=(w?25:5)*60;m.textContent=w?"工作时间":"休息时间";b.textContent="开始";r()}},1000);run=true;b.textContent="暂停"}}function rs(){clearInterval(tm);run=false;w=1;left=25*60;m.textContent="工作时间";b.textContent="开始";r()}r()</script></body></html>

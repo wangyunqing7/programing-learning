@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 17 天 - Canvas 时钟</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 17 · 时钟</title><style>body{font-family:system-ui;background:#f0f4f8;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}canvas{background:#fff;border-radius:50%}</style></head><body><canvas id="c" width="300" height="300"></canvas><script>const cv=document.getElementById("c"),x=cv.getContext("2d"),cx=150,cy=150,r=140;function draw(){x.clearRect(0,0,300,300);x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.strokeStyle="#0f5cc0";x.lineWidth=6;x.stroke();const d=new Date(),h=d.getHours()%12,m=d.getMinutes(),s=d.getSeconds();hand((h+m/60)*Math.PI/6,r*.5,6);hand((m+s/60)*Math.PI/30,r*.7,4);hand(s*Math.PI/30,r*.8,2,"#ef4444");requestAnimationFrame(draw)}function hand(a,l,w,c="#182033"){x.beginPath();x.moveTo(cx,cy);x.lineTo(cx+Math.sin(a)*l,cy-Math.cos(a)*l);x.strokeStyle=c;x.lineWidth=w;x.lineCap="round";x.stroke()}draw()</script></body></html>

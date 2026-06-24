@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 06 天 - 图片画廊</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 06 · 画廊</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.g{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.i{background:#fff;border-radius:8px;overflow:hidden;cursor:pointer;transition:.2s}.i:hover{transform:scale(1.03)}.sw{height:120px}.c{padding:8px;text-align:center;font-size:13px}</style></head><body><div class="g" id="g"></div><script>const cs=[["珊瑚红","#ef4444"],["海洋蓝","#0f5cc0"],["薄荷绿","#10b981"],["向日葵","#f59e0b"],["紫罗兰","#8b5cf6"],["青绿","#0d9488"],["玫瑰粉","#ec4899"],["石墨灰","#475569"]];document.getElementById("g").innerHTML=cs.map(([n,c])=>'<div class="i"><div class="sw" style="background:'+c+'"></div><div class="c">'+n+'</div></div>').join("")</script></body></html>

@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 03 天 - 主题切换</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 03 · 主题切换</title><style>:root{--bg:#f0f4f8;--card:#fff;--text:#182033}.dark{--bg:#182033;--card:#273449;--text:#e2e8f0}body{font-family:system-ui;background:var(--bg);color:var(--text);margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;transition:.3s}.card{background:var(--card);padding:40px;border-radius:16px;text-align:center;transition:.3s}button{padding:10px 24px;border:none;border-radius:8px;background:#0f5cc0;color:#fff;cursor:pointer}</style></head><body><div class="card"><h2>切换主题</h2><p>当前主题保存到本地</p><button id="t">切换亮/暗</button></div><script>if(localStorage.getItem("theme")==="dark")document.body.classList.add("dark");document.getElementById("t").addEventListener("click",()=>{document.body.classList.toggle("dark");localStorage.setItem("theme",document.body.classList.contains("dark")?"dark":"light")})</script></body></html>

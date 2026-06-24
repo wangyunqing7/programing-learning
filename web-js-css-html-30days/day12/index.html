@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 12 天 - 标签页</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 12 · 标签页</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.tabs{max-width:500px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden}.nav{display:flex;border-bottom:1px solid #e2e8f0}.nav div{flex:1;padding:14px;text-align:center;cursor:pointer}.nav div.on{background:#0f5cc0;color:#fff}.pn{padding:24px;display:none}.pn.on{display:block}</style></head><body><div class="tabs"><div class="nav"><div class="on" onclick="sw(0)">介绍</div><div onclick="sw(1)">详情</div><div onclick="sw(2)">评价</div></div><div class="pn on">介绍内容</div><div class="pn">详细信息</div><div class="pn">评价区域</div></div><script>function sw(i){document.querySelectorAll(".nav div").forEach((t,k)=>t.classList.toggle("on",k===i));document.querySelectorAll(".pn").forEach((p,k)=>p.classList.toggle("on",k===i))}</script></body></html>

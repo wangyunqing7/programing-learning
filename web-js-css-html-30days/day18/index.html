@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 18 天 - Fetch 模拟数据</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 18 · Fetch</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:500px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}.user{padding:12px;border-bottom:1px solid #eee}button{padding:8px 16px;background:#0f5cc0;color:#fff;border:none;border-radius:6px;cursor:pointer}</style></head><body><div class="box"><button onclick="ld()">加载用户</button><div id="l">点击按钮加载数据</div></div><script>function mk(){return new Promise(r=>setTimeout(()=>r([{name:"Ada",email:"ada@x.com"},{name:"Linus",email:"linus@x.com"},{name:"Grace",email:"grace@x.com"}]),500))}async function ld(){document.getElementById("l").textContent="加载中...";try{const us=await mk();document.getElementById("l").innerHTML=us.map(u=>'<div class="user"><strong>'+u.name+'</strong> - '+u.email+"</div>").join("")}catch(e){document.getElementById("l").textContent="失败"}}</script></body></html>

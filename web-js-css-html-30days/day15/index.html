@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 15 天 - 键盘快捷键</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 15 · 键盘快捷键</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px;text-align:center}.box{background:#fff;padding:40px;border-radius:12px;max-width:400px;margin:0 auto}kbd{background:#273449;color:#fff;padding:4px 10px;border-radius:4px}#lg{margin-top:16px;color:#64748b;min-height:20px}</style></head><body><div class="box"><h2>试试快捷键</h2><p><kbd>↑</kbd>/<kbd>↓</kbd> 加减 · <kbd>Space</kbd> 归零 · <kbd>R</kbd> 变红</p><div style="font-size:48px;color:#0f5cc0" id="n">0</div><div id="lg"></div></div><script>let n=0;const num=document.getElementById("n"),lg=document.getElementById("lg");document.addEventListener("keydown",e=>{if(e.key==="ArrowUp")n++;else if(e.key==="ArrowDown")n--;else if(e.key===" ")n=0;else if(e.key.toLowerCase()==="r")num.style.color="#ef4444";else return;num.textContent=n;lg.textContent="你按了："+e.key})</script></body></html>

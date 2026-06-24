@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 19 天 - 响应式导航</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 19 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 19 天：响应式导航</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>媒体查询和菜单</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 19 - 响应式导航</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 19 · 响应式导航</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:63.3%"></span></span>
+      <span class="progress-label">19 / 30</span>
+    </span>
+  </nav>
+  <h1>响应式导航</h1>
+  <p class="subtitle">媒体查询和菜单</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>响应式导航</strong>，掌握 媒体查询和菜单。</p>
+      <section><h3>知识点</h3><ul>
+          <li>@media 定义窄屏样式</li>
+          <li>窄屏变汉堡菜单</li>
+          <li>JS 控制展开收起</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>移动优先写法</li>
+            <li>汉堡要支持触摸</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>桌面横排移动竖排。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;meta name="viewport" content="width=device-width,initial-scale=1"&gt;&lt;title&gt;Day 19 · 响应式导航&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;margin:0}header{background:#273449;padding:0 20px}.bar{display:flex;justify-content:space-between;align-items:center;color:#fff;padding:14px 0}.menu{display:flex;gap:20px}.menu a{color:#fff;text-decoration:none}.hm{display:none;font-size:24px;cursor:pointer;color:#fff}@media(max-width:600px){.menu{display:none;flex-direction:column;position:absolute;background:#273449;width:100%;left:0;top:54px;padding:10px 20px;box-sizing:border-box}.menu.on{display:flex}.hm{display:block}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;header&gt;&lt;div class="bar"&gt;&lt;span&gt;我的网站&lt;/span&gt;&lt;div class="hm" onclick="tg()"&gt;☰&lt;/div&gt;&lt;nav class="menu" id="m"&gt;&lt;a href="#"&gt;首页&lt;/a&gt;&lt;a href="#"&gt;产品&lt;/a&gt;&lt;a href="#"&gt;关于&lt;/a&gt;&lt;a href="#"&gt;联系&lt;/a&gt;&lt;/nav&gt;&lt;/div&gt;&lt;/header&gt;&lt;div style="padding:40px"&gt;缩小窗口看导航变化（小于600px变汉堡）&lt;/div&gt;&lt;script&gt;function tg(){document.getElementById("m").classList.toggle("on")}&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day18/docs.html"><span class="label">← 前一天</span><span class="title">Day 18</span></a>
+    <a class="next" href="day20/docs.html"><span class="label">后一天 →</span><span class="title">Day 20</span></a>
+  </nav>
+</main>
+</body>
+</html>

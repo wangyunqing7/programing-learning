@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 10 天 - 标签过滤</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 10 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 10 天：标签过滤</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>filter 和数据属性</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 10 - 标签过滤</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 10 · 标签过滤</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:33.3%"></span></span>
+      <span class="progress-label">10 / 30</span>
+    </span>
+  </nav>
+  <h1>标签过滤</h1>
+  <p class="subtitle">filter 和数据属性</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>标签过滤</strong>，掌握 filter 和数据属性。</p>
+      <section><h3>知识点</h3><ul>
+          <li>data-* 给元素打标签</li>
+          <li>filter 按条件筛选</li>
+          <li>点击标签重新渲染</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>全部标签要单独处理</li>
+            <li>dataset 读取 data 属性</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加多选过滤。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 10 · 标签过滤&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.box{max-width:500px;margin:0 auto}.tags{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.tag{padding:6px 14px;background:#fff;border:1px solid #cbd5e1;border-radius:999px;cursor:pointer}.tag.on{background:#0f5cc0;color:#fff;border-color:#0f5cc0}.item{background:#fff;padding:12px 16px;border-radius:8px;margin-bottom:8px;display:flex;justify-content:space-between}.cat{font-size:12px;color:#0f5cc0;background:#e0f2fe;padding:2px 8px;border-radius:4px}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="box"&gt;&lt;div class="tags" id="tg"&gt;&lt;/div&gt;&lt;div id="ls"&gt;&lt;/div&gt;&lt;/div&gt;&lt;script&gt;const it=[{n:"Python教程",c:"书"},{n:"机械键盘",c:"硬件"},{n:"C++ Primer",c:"书"},{n:"显示器",c:"硬件"}];const cats=["全部",...new Set(it.map(i=&gt;i.c))];let act="全部";const tg=document.getElementById("tg"),ls=document.getElementById("ls");function rt(){tg.innerHTML=cats.map(c=&gt;'&lt;div class="tag '+(c===act?'on':'')+'" onclick="set(''+c+'')"&gt;'+c+'&lt;/div&gt;').join("")}function set(c){act=c;rt();rl()}function rl(){const sh=act==="全部"?it:it.filter(i=&gt;i.c===act);ls.innerHTML=sh.map(i=&gt;'&lt;div class="item"&gt;&lt;span&gt;'+i.n+'&lt;/span&gt;&lt;span class="cat"&gt;'+i.c+'&lt;/span&gt;&lt;/div&gt;').join("")}rt();rl()&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day09/docs.html"><span class="label">← 前一天</span><span class="title">Day 09</span></a>
+    <a class="next" href="day11/docs.html"><span class="label">后一天 →</span><span class="title">Day 11</span></a>
+  </nav>
+</main>
+</body>
+</html>

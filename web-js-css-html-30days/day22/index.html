@@ -1,13 +1,1 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Web 第 22 天 - CSS 动画卡片</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main id="app"></main>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Day 22 · CSS 动画</title><style>body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px;display:flex;gap:20px;justify-content:center}.card{width:180px;height:240px;background:linear-gradient(135deg,#0f5cc0,#0d9488);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;cursor:pointer;transition:transform .3s,box-shadow .3s}.card:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 20px 40px rgba(0,0,0,.2)}.pulse{animation:p 2s infinite}@keyframes p{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}</style></head><body><div class="card">悬停我</div><div class="card pulse">持续脉动</div><div class="card">再来一个</div></body></html>

@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 23 天 - 小测验</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 23 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 23 天：小测验</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>状态、分数和条件渲染</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 23 - 小测验</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 23 · 小测验</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:76.7%"></span></span>
+      <span class="progress-label">23 / 30</span>
+    </span>
+  </nav>
+  <h1>小测验</h1>
+  <p class="subtitle">状态、分数、条件渲染</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>小测验</strong>，掌握 状态、分数、条件渲染。</p>
+      <section><h3>知识点</h3><ul>
+          <li>状态记录题号和分数</li>
+          <li>答完进下一题</li>
+          <li>最后显示总分</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>题号越界判断</li>
+            <li>防止重复答</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加答题计时。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 23 · 小测验&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}.box{background:#fff;padding:32px;border-radius:12px;width:380px;text-align:center}.opt{display:block;width:100%;padding:12px;margin:6px 0;background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;cursor:pointer}.opt:hover{background:#e0f2fe}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="box" id="b"&gt;&lt;/div&gt;&lt;script&gt;const qs=[{q:"HTML 是什么？",o:["标记语言","编程语言","数据库"],a:0},{q:"CSS 做什么？",o:["逻辑","样式","存储"],a:1},{q:"JS 运行在哪？",o:["服务器","浏览器","都是"],a:2}];let c=0,s=0;function sh(){const b=document.getElementById("b");if(c&gt;=qs.length){b.innerHTML="&lt;h2&gt;完成&lt;/h2&gt;&lt;p&gt;得分 "+s+"/"+qs.length+"&lt;/p&gt;";return}const q=qs[c];b.innerHTML="&lt;h3&gt;第"+(c+1)+"题&lt;/h3&gt;&lt;p&gt;"+q.q+"&lt;/p&gt;"+q.o.map((o,i)=&gt;'&lt;button class="opt" onclick="an('+i+')"&gt;'+o+"&lt;/button&gt;").join("")}function an(i){if(i===qs[c].a)s++;c++;sh()}sh()&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day22/docs.html"><span class="label">← 前一天</span><span class="title">Day 22</span></a>
+    <a class="next" href="day24/docs.html"><span class="label">后一天 →</span><span class="title">Day 24</span></a>
+  </nav>
+</main>
+</body>
+</html>

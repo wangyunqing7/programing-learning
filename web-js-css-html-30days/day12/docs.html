@@ -1,49 +1,48 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>JavaScript/CSS/HTML 30 天学习项目 第 12 天 - 标签页</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 12 天</span></nav>
-        <h1>JavaScript/CSS/HTML 30 天学习项目 第 12 天：标签页</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>tab 状态切换</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>index.html</code></li>
-<li><code>styles.css</code></li>
-<li><code>script.js</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>前端 30 天 · Day 12 - 标签页</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 12 · 标签页</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:40.0%"></span></span>
+      <span class="progress-label">12 / 30</span>
+    </span>
+  </nav>
+  <h1>标签页</h1>
+  <p class="subtitle">tab 状态切换</p>
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>做一个 <strong>标签页</strong>，掌握 tab 状态切换。</p>
+      <section><h3>知识点</h3><ul>
+          <li>共用激活状态</li>
+          <li>点击切换 active 并显示对应内容</li>
+          <li>默认显示第一个</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>tab 和内容要对应</li>
+            <li>事件用索引</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>加滑动切换。</p></div>
+    </section>
+    <section class="panel">
+      <p class="code-caption">▶ <a href="index.html" target="_blank">在浏览器打开成品 →</a></p>
+      <p class="code-caption">index.html（节选）</p>
+      <pre><code>&lt;!doctype html&gt;&lt;html lang="zh-CN"&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;&lt;title&gt;Day 12 · 标签页&lt;/title&gt;&lt;style&gt;body{font-family:system-ui;background:#f0f4f8;margin:0;padding:40px}.tabs{max-width:500px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden}.nav{display:flex;border-bottom:1px solid #e2e8f0}.nav div{flex:1;padding:14px;text-align:center;cursor:pointer}.nav div.on{background:#0f5cc0;color:#fff}.pn{padding:24px;display:none}.pn.on{display:block}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div class="tabs"&gt;&lt;div class="nav"&gt;&lt;div class="on" onclick="sw(0)"&gt;介绍&lt;/div&gt;&lt;div onclick="sw(1)"&gt;详情&lt;/div&gt;&lt;div onclick="sw(2)"&gt;评价&lt;/div&gt;&lt;/div&gt;&lt;div class="pn on"&gt;介绍内容&lt;/div&gt;&lt;div class="pn"&gt;详细信息&lt;/div&gt;&lt;div class="pn"&gt;评价区域&lt;/div&gt;&lt;/div&gt;&lt;script&gt;function sw(i){document.querySelectorAll(".nav div").forEach((t,k)=&gt;t.classList.toggle("on",k===i));document.querySelectorAll(".pn").forEach((p,k)=&gt;p.classList.toggle("on",k===i))}&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre>
+    </section>
+  </div>
+  <nav class="pager">
+    <a class="prev" href="day11/docs.html"><span class="label">← 前一天</span><span class="title">Day 11</span></a>
+    <a class="next" href="day13/docs.html"><span class="label">后一天 →</span><span class="title">Day 13</span></a>
+  </nav>
+</main>
+</body>
+</html>
