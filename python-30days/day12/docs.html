@@ -29,7 +29,7 @@
       <ul>
         <li>用 <code>try/except</code> 捕获不同类型异常</li>
         <li>继承 <code>ValueError</code> 定义业务异常</li>
-        <li>用 <code>match/case</code> 做模式匹配分发</li>
+        <li>用 <code>if/elif</code> 按运算符分发</li>
         <li>理解异常的继承关系</li>
       </ul>
 
@@ -37,14 +37,14 @@
         <h3>知识点</h3>
         <p><strong>异常分类</strong>：不同错误用不同异常类，调用方可以分别 catch。除零用 <code>ZeroDivisionError</code>，业务非法用自定义 <code>InvalidInputError</code>。</p>
         <p><strong>自定义异常</strong>：<code>class MyError(ValueError):</code> 继承一个合适的父类，既能被精确 catch，也能被父类 catch。</p>
-        <p><strong>match/case</strong>：Python 3.10+ 的结构化分支，比 if/elif 更清晰。</p>
+        <p><strong>运算分发</strong>：用 <code>if/elif</code> 按运算符字符串走不同分支，逻辑清晰、所有版本通用。</p>
       </section>
 
       <div class="callout warn">
         <strong>⚠️ 易错点</strong>
         <ul>
           <li>别用 <code>except Exception</code> 一把抓，会吞掉 bug，难以排查。</li>
-          <li>match/case 需要 Python 3.10+。</li>
+          <li>自定义异常要继承合适的父类，否则调用方难精确捕获。</li>
         </ul>
       </div>
 
@@ -70,10 +70,9 @@ def safe_divide(a, b):
 def safe_eval(expr):
     parts = expr.split()
     a, op, b = float(parts[0]), parts[1], float(parts[2])
-    match op:
-        case "/":    return safe_divide(a, b)
-        case "sqrt": return safe_sqrt(a)
-        case _:      raise InvalidInputError(f"不支持：{op}")</code></pre>
+    if op == "/":    return safe_divide(a, b)
+    elif op == "sqrt": return safe_sqrt(a)
+    else: raise InvalidInputError(f"不支持：{op}")</code></pre>
 
       <p class="code-caption">▶ 运行结果</p>
       <pre class="output">正常运算：
