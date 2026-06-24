@@ -1,43 +1,65 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#define MAX_VALUE 100
+/* 第 28 天：迷你数据库
+ * 用文件持久化的记录存储（文本格式）。
+ */
+#define MAX 50
+typedef struct {
+    int id;
+    char name[24];
+    int age;
+} Record;
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+typedef struct {
+    Record rows[MAX];
+    int count;
+} Database;
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+void db_add(Database *db, int id, const char *name, int age) {
+    if (db->count < MAX) {
+        db->rows[db->count++] = (Record){id, "", age};
+        strcpy(db->rows[db->count-1].name, name);
+    }
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+void db_save(Database *db, const char *path) {
+    FILE *f = fopen(path, "w");
+    for (int i = 0; i < db->count; i++)
+        fprintf(f, "%d %s %d\n", db->rows[i].id, db->rows[i].name, db->rows[i].age);
+    fclose(f);
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
+
+void db_load(Database *db, const char *path) {
+    FILE *f = fopen(path, "r");
+    if (!f) return;
+    db->count = 0;
+    while (db->count < MAX &&
+           fscanf(f, "%d %23s %d", &db->rows[db->count].id,
+                  db->rows[db->count].name, &db->rows[db->count].age) == 3) {
+        db->count++;
+    }
+    fclose(f);
+}
+
+void db_print(Database *db) {
+    printf("数据库（%d 条）：\n", db->count);
+    for (int i = 0; i < db->count; i++)
+        printf("  #%d %s 年龄 %d\n", db->rows[i].id, db->rows[i].name, db->rows[i].age);
+}
 
 int main(void) {
-    printf("C Day 28: 迷你数据库\n");
-    Record records[2] = {{1, "book"}, {2, "pen"}}; printf("%d:%s\\n", records[1].id, records[1].name);
+    Database db = {0};
+    db_add(&db, 1, "Ada", 36);
+    db_add(&db, 2, "Linus", 54);
+    db_add(&db, 3, "Grace", 85);
+    db_print(&db);
+
+    db_save(&db, "db.txt");
+    printf("\n保存后重新加载：\n");
+    Database db2 = {0};
+    db_load(&db2, "db.txt");
+    db_print(&db2);
+    remove("db.txt");
     return 0;
 }

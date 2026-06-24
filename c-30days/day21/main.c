@@ -1,43 +1,27 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 21 天：头文件思维
+ * 演示声明与定义分离（这里用内联演示，真实项目拆 .h/.c）。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+/* ---- 相当于 mathutil.h 的内容 ---- */
+#ifndef MATHUTIL_H
+#define MATHUTIL_H
+int max_int(int a, int b);   /* 声明 */
+int min_int(int a, int b);
+#endif
+/* ---- 头文件结束 ---- */
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
-}
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
+/* ---- 相当于 mathutil.c 的定义 ---- */
+int max_int(int a, int b) { return a > b ? a : b; }
+int min_int(int a, int b) { return a < b ? a : b; }
 
 int main(void) {
-    printf("C Day 21: 头文件思维\n");
-    print_banner("header-style interface");
+    printf("max(3,7) = %d\n", max_int(3, 7));
+    printf("min(3,7) = %d\n", min_int(3, 7));
+
+    /* 头文件的价值：别的 .c 文件只要 #include 就能用这些函数，
+       无需知道实现细节。大型项目靠这个组织代码。 */
+    printf("\n头文件让多个源文件共享声明，是 C 项目组织的基础。\n");
     return 0;
 }

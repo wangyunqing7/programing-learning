@@ -1,48 +1,113 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 12 天 - 文件写入</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 12 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 12 天：文件写入</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>FILE I/O</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 12 - 文件写入</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 12 · 文件写入</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:40.0%"></span></span>
+      <span class="progress-label">12 / 30</span>
+    </span>
+  </nav>
+
+  <h1>文件写入</h1>
+  <p class="subtitle">fopen/fprintf 文件操作</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>fopen/fprintf 文件操作</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li><code>fopen(路径, 模式)</code> 打开文件，模式 <code>w</code> 写 <code>r</code> 读 <code>a</code> 追加</li>
+          <li><code>fprintf/fscanf</code> 对文件做格式化读写</li>
+          <li>用完要 <code>fclose</code>，否则可能丢失数据</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li><code>fopen</code> 失败返回 NULL，使用前必须检查</li>
+            <li><code>w</code> 模式会清空原文件内容</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>写一个日志函数，把运行信息追加到 log.txt。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 12 天：文件写入
+ * 把数据写到文件再读回来。
+ */
+int main(void) {
+    const char *path = "output.txt";
+
+    /* 写文件 */
+    FILE *out = fopen(path, "w");
+    if (out == NULL) {
+        printf("无法打开 %s 写入\n", path);
+        return 1;
+    }
+    fprintf(out, "姓名 数学 英语\n");
+    fprintf(out, "Ada 95 88\n");
+    fprintf(out, "Linus 78 65\n");
+    fclose(out);
+    printf("已写入 %s\n", path);
+
+    /* 读文件 */
+    FILE *in = fopen(path, "r");
+    if (in == NULL) {
+        printf("无法打开 %s 读取\n", path);
+        return 1;
+    }
+    printf("--- 文件内容 ---\n");
+    char line[100];
+    while (fgets(line, sizeof(line), in) != NULL) {
+        printf("%s", line);
+    }
+    fclose(in);
+
+    /* 清理（实际项目可保留） */
+    remove(path);
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">已写入 output.txt
+--- 文件内容 ---
+姓名 数学 英语
+Ada 95 88
+Linus 78 65</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day12
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day11/docs.html"><span class="label">← 前一天</span><span class="title">Day 11</span></a>
+    <a class="next" href="day13/docs.html"><span class="label">后一天 →</span><span class="title">Day 13</span></a>
+  </nav>
+</main>
+</body>
+</html>

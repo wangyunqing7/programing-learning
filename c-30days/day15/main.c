@@ -1,43 +1,29 @@
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
+/* 第 15 天：qsort
+ * 用标准库排序，学会写比较函数。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+/* 整数升序比较 */
+int cmp_int(const void *a, const void *b) {
+    int x = *(const int *)a;
+    int y = *(const int *)b;
+    return (x > y) - (x < y);  /* 避免溢出 */
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 15: qsort\n");
-    int values[] = {4, 1, 3, 2}; qsort(values, 4, sizeof(int), compare_ints); for (int i = 0; i < 4; ++i) printf("%d ", values[i]); printf("\\n");
+    int arr[] = {42, 7, 19, 88, 3, 56, 21};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("排序前：");
+    for (int i = 0; i < n; i++) printf(" %d", arr[i]);
+    printf("\n");
+
+    qsort(arr, n, sizeof(int), cmp_int);
+
+    printf("排序后：");
+    for (int i = 0; i < n; i++) printf(" %d", arr[i]);
+    printf("\n");
     return 0;
 }

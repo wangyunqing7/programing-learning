@@ -1,43 +1,37 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define MAX_VALUE 100
-
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
-
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
-}
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
-
+/* 第 12 天：文件写入
+ * 把数据写到文件再读回来。
+ */
 int main(void) {
-    printf("C Day 12: 文件写入\n");
-    FILE *file = tmpfile(); fputs("temporary note", file); rewind(file); char buffer[64]; fgets(buffer, sizeof(buffer), file); printf("%s\\n", buffer); fclose(file);
+    const char *path = "output.txt";
+
+    /* 写文件 */
+    FILE *out = fopen(path, "w");
+    if (out == NULL) {
+        printf("无法打开 %s 写入\n", path);
+        return 1;
+    }
+    fprintf(out, "姓名 数学 英语\n");
+    fprintf(out, "Ada 95 88\n");
+    fprintf(out, "Linus 78 65\n");
+    fclose(out);
+    printf("已写入 %s\n", path);
+
+    /* 读文件 */
+    FILE *in = fopen(path, "r");
+    if (in == NULL) {
+        printf("无法打开 %s 读取\n", path);
+        return 1;
+    }
+    printf("--- 文件内容 ---\n");
+    char line[100];
+    while (fgets(line, sizeof(line), in) != NULL) {
+        printf("%s", line);
+    }
+    fclose(in);
+
+    /* 清理（实际项目可保留） */
+    remove(path);
     return 0;
 }

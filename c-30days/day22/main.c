@@ -1,43 +1,54 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#define MAX_VALUE 100
+/* 第 22 天：小型通讯录
+ * 用结构体数组管理联系人。
+ */
+#define MAX_CONTACTS 100
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+typedef struct {
+    char name[32];
+    char phone[20];
+} Contact;
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+typedef struct {
+    Contact data[MAX_CONTACTS];
+    int count;
+} AddressBook;
+
+void book_init(AddressBook *b) { b->count = 0; }
+
+void book_add(AddressBook *b, const char *name, const char *phone) {
+    if (b->count >= MAX_CONTACTS) { printf("通讯录已满\n"); return; }
+    strcpy(b->data[b->count].name, name);
+    strcpy(b->data[b->count].phone, phone);
+    b->count++;
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
+
+Contact* book_find(AddressBook *b, const char *name) {
+    for (int i = 0; i < b->count; i++) {
+        if (strcmp(b->data[i].name, name) == 0) return &b->data[i];
+    }
+    return NULL;
 }
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
+
+void book_print(AddressBook *b) {
+    printf("通讯录（共 %d 人）：\n", b->count);
+    for (int i = 0; i < b->count; i++) {
+        printf("  %s  %s\n", b->data[i].name, b->data[i].phone);
+    }
+}
 
 int main(void) {
-    printf("C Day 22: 小型通讯录\n");
-    Contact contacts[2] = {{"Ada", "ada@example.com"}, {"Linus", "linus@example.com"}}; printf("%s\\n", contacts[0].email);
+    AddressBook book;
+    book_init(&book);
+    book_add(&book, "Ada", "138-0000-0001");
+    book_add(&book, "Linus", "138-0000-0002");
+    book_add(&book, "Grace", "138-0000-0003");
+    book_print(&book);
+
+    Contact *c = book_find(&book, "Linus");
+    if (c) printf("\n找到：%s %s\n", c->name, c->phone);
+    else   printf("\n没找到\n");
     return 0;
 }

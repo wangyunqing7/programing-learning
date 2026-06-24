@@ -1,48 +1,94 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 02 天 - 变量和计算</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 02 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 02 天：变量和计算</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>基础类型</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 02 - 变量和计算</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 02 · 变量和计算</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:6.7%"></span></span>
+      <span class="progress-label">2 / 30</span>
+    </span>
+  </nav>
+
+  <h1>变量和计算</h1>
+  <p class="subtitle">变量、运算符和格式化输出</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>变量、运算符和格式化输出</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>声明变量要指定类型：<code>int</code>、<code>double</code>、<code>char</code></li>
+          <li>算术运算符 <code>+ - * / %</code>，整数除法会截断</li>
+          <li><code>printf</code> 的格式符：<code>%d</code> 整数、<code>%f</code> 浮点、<code>%.2f</code> 两位小数</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li><code>5 / 2</code> 结果是 2 不是 2.5（整数除法）</li>
+            <li><code>%</code> 取余只能用于整数</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>把华氏度换成开尔文温度的换算。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 02 天：变量和计算
+ * 温度换算：摄氏转华氏。
+ */
+int main(void) {
+    double celsius = 26.0;
+    double fahrenheit = celsius * 9.0 / 5.0 + 32.0;
+
+    printf("%.1f 摄氏度 = %.1f 华氏度\n", celsius, fahrenheit);
+
+    /* 整数除法 vs 浮点除法 */
+    int a = 5, b = 2;
+    printf("整数除法 5/2 = %d\n", a / b);      /* 2 */
+    printf("浮点除法 5.0/2.0 = %.2f\n", 5.0 / 2.0); /* 2.50 */
+    printf("取余 5 %% 2 = %d\n", a % b);        /* 1 */
+
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">26.0 摄氏度 = 78.8 华氏度
+整数除法 5/2 = 2
+浮点除法 5.0/2.0 = 2.50
+取余 5 % 2 = 1</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day02
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day01/docs.html"><span class="label">← 前一天</span><span class="title">Day 01</span></a>
+    <a class="next" href="day03/docs.html"><span class="label">后一天 →</span><span class="title">Day 03</span></a>
+  </nav>
+</main>
+</body>
+</html>

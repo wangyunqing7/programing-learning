@@ -1,43 +1,51 @@
-#include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-#define MAX_VALUE 100
+/* 第 27 天：命令分发
+ * 用函数指针表实现命令行调度。
+ */
 
-typedef struct { char title[64]; int done; } Task;
-typedef enum { LEVEL_BEGINNER, LEVEL_INTERMEDIATE } Level;
-typedef struct { char name[32]; char email[64]; } Contact;
-typedef enum { STATE_START, STATE_RUNNING, STATE_DONE } State;
-typedef struct { int data[4]; int head; int tail; } Ring;
-typedef struct { int id; char name[32]; } Record;
-typedef void (*Handler)(void);
-typedef struct { const char *name; Handler handler; } Command;
+void cmd_hello(const char *arg) { printf("你好，%s！\n", arg); }
+void cmd_add(const char *arg) {
+    /* arg 形如 "3 5" */
+    int a, b;
+    if (sscanf(arg, "%d %d", &a, &b) == 2)
+        printf("%d + %d = %d\n", a, b, a + b);
+    else
+        printf("用法：add 数字 数字\n");
+}
+void cmd_quit(const char *arg) { printf("再见\n"); }
 
-int square(int value) { return value * value; }
-int safe_divide(int left, int right) { return right == 0 ? 0 : left / right; }
-int compare_ints(const void *left, const void *right) {
-    int a = *(const int *)left;
-    int b = *(const int *)right;
-    return (a > b) - (a < b);
+typedef struct {
+    const char *name;
+    void (*handler)(const char *);
+} Command;
+
+Command commands[] = {
+    {"hello", cmd_hello},
+    {"add",   cmd_add},
+    {"quit",  cmd_quit},
+};
+
+void dispatch(const char *line) {
+    char cmd[32], arg[64] = "";
+    sscanf(line, "%31s %63[^
+]", cmd, arg);
+
+    for (int i = 0; i < 3; i++) {
+        if (strcmp(cmd, commands[i].name) == 0) {
+            commands[i].handler(arg);
+            return;
+        }
+    }
+    printf("未知命令：%s\n", cmd);
 }
-int factorial(int value) { return value <= 1 ? 1 : value * factorial(value - 1); }
-void print_banner(const char *text) { printf("== %s ==\n", text); }
-double average(const int *values, int count) {
-    int total = 0;
-    for (int i = 0; i < count; ++i) total += values[i];
-    return count == 0 ? 0.0 : (double)total / count;
-}
-State next_state(State state) { return state == STATE_START ? STATE_RUNNING : STATE_DONE; }
-void ring_push(Ring *ring, int value) { ring->data[ring->tail % 4] = value; ring->tail++; }
-int ring_pop(Ring *ring) { int value = ring->data[ring->head % 4]; ring->head++; return value; }
-void say_hello(void) { printf("hello command\n"); }
-void say_bye(void) { printf("bye command\n"); }
-void debug_log(const char *message) { printf("[debug] %s\n", message); }
-int sum_array(const int *values, int count) { int total = 0; for (int i = 0; i < count; ++i) total += values[i]; return total; }
 
 int main(void) {
-    printf("C Day 27: 命令分发\n");
-    Command commands[] = {{"hello", say_hello}, {"bye", say_bye}}; commands[0].handler();
+    dispatch("hello Ada");
+    dispatch("add 3 5");
+    dispatch("add 10");
+    dispatch("bogus");
+    dispatch("quit");
     return 0;
 }

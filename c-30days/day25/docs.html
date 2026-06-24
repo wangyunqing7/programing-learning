@@ -1,48 +1,119 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>C 语言 30 天学习项目 第 25 天 - 状态机</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 25 天</span></nav>
-        <h1>C 语言 30 天学习项目 第 25 天：状态机</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>枚举驱动状态</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.c</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 语言 30 天 · Day 25 - 状态机</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 25 · 状态机</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:83.3%"></span></span>
+      <span class="progress-label">25 / 30</span>
+    </span>
+  </nav>
+
+  <h1>状态机</h1>
+  <p class="subtitle">用枚举和 switch 写状态机</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>用枚举和 switch 写状态机</strong>，通过一个可运行的小程序理解核心用法。</p>
+
+      <section>
+        <h3>知识点</h3>
+        <ul>
+          <li>状态机 = 当前状态 + 输入 → 新状态</li>
+          <li>用 enum 表示状态，switch 处理转移</li>
+          <li>文字冒险、协议解析、UI 流程都是状态机</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+            <li>状态转移表要覆盖所有状态×输入组合</li>
+            <li>忘记 default 分支处理未知输入</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <p>加一个「战斗」状态，捡到武器才能战斗。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.c</p>
+      <pre><code>#include &lt;stdio.h&gt;
+
+/* 第 25 天：状态机
+ * 一个迷你文字冒险的状态机。
+ */
+typedef enum { S_START, S_FOREST, S_TREASURE, S_END } State;
+
+const char* state_name(State s) {
+    switch (s) {
+        case S_START:    return "起点";
+        case S_FOREST:   return "森林";
+        case S_TREASURE: return "宝箱";
+        case S_END:      return "结束";
+    }
+    return "?";
+}
+
+/* 模拟玩家的一系列输入 */
+int main(void) {
+    State state = S_START;
+    char inputs[] = {'g', 'g', 't'};  /* g=go, t=take */
+    int idx = 0, total = 3;
+
+    while (state != S_END &amp;&amp; idx &lt; total) {
+        char input = inputs[idx++];
+        printf("[%s] 输入 %c -&gt; ", state_name(state), input);
+
+        switch (state) {
+            case S_START:
+                if (input == 'g') state = S_FOREST;
+                break;
+            case S_FOREST:
+                if (input == 'g') state = S_TREASURE;
+                break;
+            case S_TREASURE:
+                if (input == 't') { printf("拿到宝物！"); state = S_END; }
+                break;
+            default: break;
+        }
+        printf(" 现在 [%s]\n", state_name(state));
+    }
+    printf("冒险结束\n");
+    return 0;
+}</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">[起点] 输入 g ->  现在 [森林]
+[森林] 输入 g ->  现在 [宝箱]
+[宝箱] 输入 t -> 拿到宝物！ 现在 [结束]
+冒险结束</pre>
+
+      <section>
+        <h3>编译运行</h3>
+        <pre><code>cd c-30days/day25
+gcc -std=c11 -Wall main.c -o a &amp;&amp; ./a</pre></code>
+        <p>部分天数（如用到 math.h）需加 <code>-lm</code> 链接数学库。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day24/docs.html"><span class="label">← 前一天</span><span class="title">Day 24</span></a>
+    <a class="next" href="day26/docs.html"><span class="label">后一天 →</span><span class="title">Day 26</span></a>
+  </nav>
+</main>
+</body>
+</html>
