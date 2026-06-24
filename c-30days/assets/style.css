@@ -1,0 +1,19 @@
+:root {
+  font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+  color: #182033;
+  background: #f6f8fb;
+}
+body { margin: 0; background: #f6f8fb; }
+.page { width: min(980px, calc(100vw - 32px)); margin: 0 auto; padding: 28px 0 56px; }
+.topline { display: flex; justify-content: space-between; margin-bottom: 20px; color: #64748b; }
+a { color: #0f5cc0; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { margin: 0 0 20px; font-size: 34px; line-height: 1.2; }
+h2 { margin: 24px 0 10px; font-size: 22px; }
+p, li { font-size: 16px; line-height: 1.75; }
+code { font-family: Consolas, "Cascadia Code", monospace; background: #eef2f7; padding: 2px 5px; border-radius: 4px; }
+pre { overflow: auto; background: #101827; color: #dbeafe; padding: 16px; border-radius: 8px; }
+pre code { background: transparent; padding: 0; }
+section, .card { background: #fff; border: 1px solid #dbe3ef; border-radius: 8px; padding: 18px 22px; margin: 14px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #e0f2fe; color: #075985; font-size: 13px; }

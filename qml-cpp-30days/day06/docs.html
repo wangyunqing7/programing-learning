@@ -1,0 +1,63 @@
+<!doctype html>
+    <html lang="zh-CN">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>第 06 天 - QML 调用 C++ 方法</title>
+      <link rel="stylesheet" href="../assets/style.css">
+    </head>
+    <body>
+      <main class="page">
+        <nav class="topline"><a href="../index.html">返回目录</a><span>第 06 天</span></nav>
+        <h1>第 06 天：QML 调用 C++ 方法</h1>
+        <section class="panel">
+          <h2>今天目标</h2>
+          <p>用 context property 把 C++ 对象交给 QML，并从按钮点击里调用 Q_INVOKABLE 方法。</p>
+        </section>
+        <section>
+          <h2>核心概念</h2>
+          <ul><li>Q_INVOKABLE 让普通 C++ 方法能被 QML 调用</li>
+<li>QQmlContext 可以注入对象</li>
+<li>QML 不应该直接负责复杂业务规则</li></ul>
+        </section>
+        <section>
+          <h2>项目文件</h2>
+          <ul><li><code>CMakeLists.txt</code></li>
+<li><code>Main.qml</code></li>
+<li><code>MessageProvider.cpp</code></li>
+<li><code>MessageProvider.h</code></li>
+<li><code>main.cpp</code></li>
+<li><code>run.ps1</code></li>
+<li><code>docs.html</code></li></ul>
+        </section>
+        <section>
+          <h2>运行方式</h2>
+          <p>在 PowerShell 中进入当天目录后执行下面命令，或者直接运行当天的 <code>run.ps1</code>。</p>
+          <pre><code>cd qml-cpp-30days/day06
+cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
+cmake --build build</code></pre>
+        </section>
+        <section>
+          <h2>代码拆解</h2>
+          <p>本日代码故意保持小而完整。先从 <code>Main.qml</code> 看界面结构，再看 <code>main.cpp</code> 如何加载 QML。包含 C++ 类的天数，再从头文件看暴露给 QML 的属性、方法和信号。</p>
+          <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。后面的完整 App 会持续强化这个分工。</p>
+        </section>
+        <section>
+          <h2>常见错误</h2>
+          <ul>
+            <li>如果提示找不到 Qt，请确认 CMake 命令里带了 <code>-DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64</code>。</li>
+            <li>如果运行时提示缺少 DLL，请先把 <code>C:\Qt\6.11.1\mingw_64\bin</code> 加入当前 PowerShell 的 <code>PATH</code>。</li>
+            <li>如果改了 C++ 头文件但界面没变化，先重新构建，因为 <code>Q_OBJECT</code> 需要 moc 重新生成元对象代码。</li>
+          </ul>
+        </section>
+        <section>
+          <h2>今日练习</h2>
+          <p>给 MessageProvider 增加一个 version() 方法，并在 QML 里显示。</p>
+        </section>
+        <section class="next">
+          <h2>明天预告</h2>
+          <p>学习 Q_PROPERTY。</p>
+        </section>
+      </main>
+    </body>
+    </html>

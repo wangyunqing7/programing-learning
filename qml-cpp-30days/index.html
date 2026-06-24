@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>30 天学习 QML + C++</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <main class="page">
+    <h1>30 天学习 QML + C++</h1>
+    <section class="panel">
+      <p>这套教程按 Qt 6.11.1、CMake、MinGW 环境编写。前 15 天是独立练习，后 15 天持续完善一个任务/笔记管理 App。</p>
+      <p>每一天都有可运行代码、<code>run.ps1</code> 和 HTML 讲义。建议按顺序学习，但每个目录都可以独立构建。</p>
+    </section>
+    <div class="grid">
+
+<article class="day-card">
+  <h2>第 01 天</h2>
+  <p><a href="day01/docs.html">第一个 Qt Quick 窗口</a></p>
+  <p>建立最小 QML 项目，理解 C++ 程序如何加载 QML 界面。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 02 天</h2>
+  <p><a href="day02/docs.html">属性、绑定和点击事件</a></p>
+  <p>用 QML 属性保存状态，用绑定自动刷新界面，用 MouseArea 接收点击。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 03 天</h2>
+  <p><a href="day03/docs.html">组件拆分和基础布局</a></p>
+  <p>把重复 UI 拆成可复用 QML 组件，使用 Row 和 Column 组织界面。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 04 天</h2>
+  <p><a href="day04/docs.html">Qt Quick Controls</a></p>
+  <p>使用 Button、TextField、Slider、Switch 等现成控件构建表单界面。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 05 天</h2>
+  <p><a href="day05/docs.html">状态和动画</a></p>
+  <p>用 states 和 transitions 描述界面状态切换，并给变化添加动画。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 06 天</h2>
+  <p><a href="day06/docs.html">QML 调用 C++ 方法</a></p>
+  <p>用 context property 把 C++ 对象交给 QML，并从按钮点击里调用 Q_INVOKABLE 方法。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 07 天</h2>
+  <p><a href="day07/docs.html">Q_PROPERTY 和属性通知</a></p>
+  <p>把 C++ 属性暴露给 QML，并用 NOTIFY 信号驱动界面自动刷新。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 08 天</h2>
+  <p><a href="day08/docs.html">C++ 信号传到 QML</a></p>
+  <p>从 C++ 发出信号，在 QML 里用 Connections 响应。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 09 天</h2>
+  <p><a href="day09/docs.html">QML 传参给 C++</a></p>
+  <p>从 QML 把数字和操作符传给 C++，由 C++ 返回计算结果。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 10 天</h2>
+  <p><a href="day10/docs.html">QVariant 数据交换</a></p>
+  <p>用 QStringList 和 QVariantList 在 C++ 与 QML 之间传递简单列表数据。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 11 天</h2>
+  <p><a href="day11/docs.html">QStringListModel 入门</a></p>
+  <p>用 Qt 自带模型把 C++ 字符串列表交给 QML ListView。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 12 天</h2>
+  <p><a href="day12/docs.html">自定义 QAbstractListModel</a></p>
+  <p>实现自己的 C++ 列表模型，为 QML 提供 title 和 done 两个角色。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 13 天</h2>
+  <p><a href="day13/docs.html">ListView delegate 和详情区</a></p>
+  <p>让列表和详情区协同工作，为后半段完整 App 做界面准备。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 14 天</h2>
+  <p><a href="day14/docs.html">JSON 本地保存</a></p>
+  <p>用 QJsonDocument 把 C++ 数据保存到应用数据目录，并再次加载。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 15 天</h2>
+  <p><a href="day15/docs.html">小综合：本地任务列表</a></p>
+  <p>把 QML 控件、C++ 数据对象和 JSON 保存合在一起，完成一个小型本地任务列表。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 16 天</h2>
+  <p><a href="day16/docs.html">完整 App：界面框架</a></p>
+  <p>先搭出任务/笔记管理 App 的窗口、顶部栏、左右分栏和详情区。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 17 天</h2>
+  <p><a href="day17/docs.html">完整 App：任务模型</a></p>
+  <p>用 C++ QAbstractListModel 作为完整 App 的数据核心。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 18 天</h2>
+  <p><a href="day18/docs.html">完整 App：新增任务</a></p>
+  <p>在 QML 表单中收集输入，并调用 C++ 模型新增任务。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 19 天</h2>
+  <p><a href="day19/docs.html">完整 App：删除任务</a></p>
+  <p>通过当前选择行删除 C++ 模型中的任务。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 20 天</h2>
+  <p><a href="day20/docs.html">完整 App：编辑任务</a></p>
+  <p>把详情区变成可编辑表单，并把修改写回模型。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 21 天</h2>
+  <p><a href="day21/docs.html">完整 App：完成状态</a></p>
+  <p>增加完成/未完成状态，理解 dataChanged 的作用。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 22 天</h2>
+  <p><a href="day22/docs.html">完整 App：搜索筛选</a></p>
+  <p>加入搜索框，让 C++ 模型根据关键字重建可见列表。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 23 天</h2>
+  <p><a href="day23/docs.html">完整 App：分类标签</a></p>
+  <p>加入分类字段，并按分类筛选任务。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 24 天</h2>
+  <p><a href="day24/docs.html">完整 App：笔记详情</a></p>
+  <p>把任务的 note 字段作为笔记详情维护。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 25 天</h2>
+  <p><a href="day25/docs.html">完整 App：JSON 持久化</a></p>
+  <p>把任务保存到 JSON 文件，并在启动时加载。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 26 天</h2>
+  <p><a href="day26/docs.html">完整 App：空状态和错误反馈</a></p>
+  <p>为空列表和失败操作增加清晰反馈。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 27 天</h2>
+  <p><a href="day27/docs.html">完整 App：界面优化</a></p>
+  <p>优化状态栏和计数信息，让 App 更像完整工具。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 28 天</h2>
+  <p><a href="day28/docs.html">完整 App：导入导出</a></p>
+  <p>支持导出和导入 JSON 文件，练习文件路径处理。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 29 天</h2>
+  <p><a href="day29/docs.html">完整 App：部署准备</a></p>
+  <p>理解 windeployqt 和发布前检查项。</p>
+</article>
+
+
+<article class="day-card">
+  <h2>第 30 天</h2>
+  <p><a href="day30/docs.html">完整 App：复盘和扩展</a></p>
+  <p>复盘 QML + C++ 混合开发路径，并保留可扩展最终版本。</p>
+</article>
+
+    </div>
+  </main>
+</body>
+</html>
