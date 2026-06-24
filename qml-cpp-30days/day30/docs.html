@@ -1,63 +1,89 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>第 30 天 - 完整 App：复盘和扩展</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回目录</a><span>第 30 天</span></nav>
-        <h1>第 30 天：完整 App：复盘和扩展</h1>
-        <section class="panel">
-          <h2>今天目标</h2>
-          <p>复盘 QML + C++ 混合开发路径，并保留可扩展最终版本。</p>
-        </section>
-        <section>
-          <h2>核心概念</h2>
-          <ul><li>QML 继续负责界面和交互</li>
-<li>C++ TaskModel 负责数据、筛选、保存和导入导出</li>
-<li>每天在同一个 App 思路上增加一个可观察能力</li></ul>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>CMakeLists.txt</code></li>
-<li><code>Main.qml</code></li>
-<li><code>TaskModel.cpp</code></li>
-<li><code>TaskModel.h</code></li>
-<li><code>main.cpp</code></li>
-<li><code>run.ps1</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>在 PowerShell 中进入当天目录后执行下面命令，或者直接运行当天的 <code>run.ps1</code>。</p>
-          <pre><code>cd qml-cpp-30days/day30
-cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
-cmake --build build</code></pre>
-        </section>
-        <section>
-          <h2>代码拆解</h2>
-          <p>本日代码故意保持小而完整。先从 <code>Main.qml</code> 看界面结构，再看 <code>main.cpp</code> 如何加载 QML。包含 C++ 类的天数，再从头文件看暴露给 QML 的属性、方法和信号。</p>
-          <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。后面的完整 App 会持续强化这个分工。</p>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML + C++ · Day 30 - 完整 App：复盘和扩展</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 30 · 完整 App：复盘和扩展</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:100.0%"></span></span>
+      <span class="progress-label">30 / 30</span>
+    </span>
+  </nav>
+
+  <h1>完整 App：复盘和扩展</h1>
+  <p class="subtitle">复盘 QML + C++ 混合开发路径，并保留可扩展最终版本。</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>复盘 QML + C++ 混合开发路径，并保留可扩展最终版本。</p>
+
+      <section>
+        <h3>核心概念</h3>
+        <ul>
+          <li>QML 管界面、C++ 管数据的分工贯穿全程</li>
+          <li>模型/属性/信号是 C++↔QML 的三大桥梁</li>
+          <li>可扩展方向：数据库、网络、通知</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 常见错误</strong>
+        <ul>
             <li>如果提示找不到 Qt，请确认 CMake 命令里带了 <code>-DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64</code>。</li>
             <li>如果运行时提示缺少 DLL，请先把 <code>C:\Qt\6.11.1\mingw_64\bin</code> 加入当前 PowerShell 的 <code>PATH</code>。</li>
             <li>如果改了 C++ 头文件但界面没变化，先重新构建，因为 <code>Q_OBJECT</code> 需要 moc 重新生成元对象代码。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>今日练习</h2>
-          <p>选择一个扩展方向：数据库、网络同步、提醒通知，写下你会新增哪些 C++ 类。</p>
-        </section>
-        <section class="next">
-          <h2>明天预告</h2>
-          <p>课程结束后可以扩展为数据库版或网络同步版。</p>
-        </section>
-      </main>
-    </body>
-    </html>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 今日练习</strong>
+        <p>选择一个扩展方向：数据库、网络同步、提醒通知，写下你会新增哪些 C++ 类。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <section>
+        <h2>📁 项目文件</h2>
+        <ul>
+          <li><code>CMakeLists.txt</code></li>
+          <li><code>Main.qml</code></li>
+          <li><code>TaskModel.cpp</code></li>
+          <li><code>TaskModel.h</code></li>
+          <li><code>main.cpp</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>运行方式</h3>
+        <p>在 PowerShell 中进入当天目录后执行（构建产物在 <code>build/</code>）：</p>
+        <pre><code>cd qml-cpp-30days/day30
+cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
+cmake --build build
+# 运行前先把 Qt bin 加入 PATH：
+#   $env:Path = "C:\Qt\6.11.1\mingw_64\bin;" + $env:Path
+& build/appDay30.exe</code></pre>
+      </section>
+
+      <section>
+        <h3>代码拆解</h3>
+        <p>最终版 Main.qml 约 252 行（SplitView+ToolBar+完整表单），TaskModel 含 5 角色+过滤+分类+计数+JSON 持久化+导入导出。复盘 C++↔QML 的三大桥梁：QAbstractListModel（数据）、Q_PROPERTY（属性）、signals（事件）。</p>
+        <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day29/docs.html"><span class="label">← 前一天</span><span class="title">Day 29</span></a>
+    <a class="next" style="visibility:hidden"><span class="label">后一天</span></a>
+  </nav>
+</main>
+</body>
+</html>

@@ -1,63 +1,89 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>第 09 天 - QML 传参给 C++</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回目录</a><span>第 09 天</span></nav>
-        <h1>第 09 天：QML 传参给 C++</h1>
-        <section class="panel">
-          <h2>今天目标</h2>
-          <p>从 QML 把数字和操作符传给 C++，由 C++ 返回计算结果。</p>
-        </section>
-        <section>
-          <h2>核心概念</h2>
-          <ul><li>QML 的 Number 可以转换输入框文本</li>
-<li>Q_INVOKABLE 支持带参数和返回值</li>
-<li>C++ 方法要处理非法输入或边界条件</li></ul>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>CMakeLists.txt</code></li>
-<li><code>Calculator.cpp</code></li>
-<li><code>Calculator.h</code></li>
-<li><code>Main.qml</code></li>
-<li><code>main.cpp</code></li>
-<li><code>run.ps1</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>在 PowerShell 中进入当天目录后执行下面命令，或者直接运行当天的 <code>run.ps1</code>。</p>
-          <pre><code>cd qml-cpp-30days/day09
-cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
-cmake --build build</code></pre>
-        </section>
-        <section>
-          <h2>代码拆解</h2>
-          <p>本日代码故意保持小而完整。先从 <code>Main.qml</code> 看界面结构，再看 <code>main.cpp</code> 如何加载 QML。包含 C++ 类的天数，再从头文件看暴露给 QML 的属性、方法和信号。</p>
-          <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。后面的完整 App 会持续强化这个分工。</p>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML + C++ · Day 09 - QML 传参给 C++</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 09 · QML 传参给 C++</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:30.0%"></span></span>
+      <span class="progress-label">9 / 30</span>
+    </span>
+  </nav>
+
+  <h1>QML 传参给 C++</h1>
+  <p class="subtitle">从 QML 把数字和操作符传给 C++，由 C++ 返回计算结果。</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>从 QML 把数字和操作符传给 C++，由 C++ 返回计算结果。</p>
+
+      <section>
+        <h3>核心概念</h3>
+        <ul>
+          <li>QML 的 Number 可以转换输入框文本</li>
+          <li>Q_INVOKABLE 支持带参数和返回值</li>
+          <li>C++ 方法要处理非法输入或边界条件</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 常见错误</strong>
+        <ul>
             <li>如果提示找不到 Qt，请确认 CMake 命令里带了 <code>-DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64</code>。</li>
             <li>如果运行时提示缺少 DLL，请先把 <code>C:\Qt\6.11.1\mingw_64\bin</code> 加入当前 PowerShell 的 <code>PATH</code>。</li>
             <li>如果改了 C++ 头文件但界面没变化，先重新构建，因为 <code>Q_OBJECT</code> 需要 moc 重新生成元对象代码。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>今日练习</h2>
-          <p>给 Calculator 增加平方运算，并在 ComboBox 里加入对应选项。</p>
-        </section>
-        <section class="next">
-          <h2>明天预告</h2>
-          <p>学习 QVariant、QStringList 和列表数据。</p>
-        </section>
-      </main>
-    </body>
-    </html>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 今日练习</strong>
+        <p>给 Calculator 增加平方运算，并在 ComboBox 里加入对应选项。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <section>
+        <h2>📁 项目文件</h2>
+        <ul>
+          <li><code>CMakeLists.txt</code></li>
+          <li><code>Calculator.cpp</code></li>
+          <li><code>Calculator.h</code></li>
+          <li><code>Main.qml</code></li>
+          <li><code>main.cpp</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>运行方式</h3>
+        <p>在 PowerShell 中进入当天目录后执行（构建产物在 <code>build/</code>）：</p>
+        <pre><code>cd qml-cpp-30days/day09
+cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
+cmake --build build
+# 运行前先把 Qt bin 加入 PATH：
+#   $env:Path = "C:\Qt\6.11.1\mingw_64\bin;" + $env:Path
+& build/appDay09.exe</code></pre>
+      </section>
+
+      <section>
+        <h3>代码拆解</h3>
+        <p><code>Calculator.h</code> 用 <code>Q_INVOKABLE double calc(double a, QString op, double b)</code>，内部用 if/else 或 switch 分发运算，除零等非法输入返回特殊值或抛错。</p>
+        <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day08/docs.html"><span class="label">← 前一天</span><span class="title">Day 08</span></a>
+    <a class="next" href="day10/docs.html"><span class="label">后一天 →</span><span class="title">Day 10</span></a>
+  </nav>
+</main>
+</body>
+</html>
