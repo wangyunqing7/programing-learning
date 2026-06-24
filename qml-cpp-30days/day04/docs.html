@@ -1,61 +1,87 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>第 04 天 - Qt Quick Controls</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回目录</a><span>第 04 天</span></nav>
-        <h1>第 04 天：Qt Quick Controls</h1>
-        <section class="panel">
-          <h2>今天目标</h2>
-          <p>使用 Button、TextField、Slider、Switch 等现成控件构建表单界面。</p>
-        </section>
-        <section>
-          <h2>核心概念</h2>
-          <ul><li>Controls 提供常用交互控件</li>
-<li>Layouts 负责自适应排版</li>
-<li>控件属性也可以参与绑定</li></ul>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>CMakeLists.txt</code></li>
-<li><code>Main.qml</code></li>
-<li><code>main.cpp</code></li>
-<li><code>run.ps1</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>在 PowerShell 中进入当天目录后执行下面命令，或者直接运行当天的 <code>run.ps1</code>。</p>
-          <pre><code>cd qml-cpp-30days/day04
-cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
-cmake --build build</code></pre>
-        </section>
-        <section>
-          <h2>代码拆解</h2>
-          <p>本日代码故意保持小而完整。先从 <code>Main.qml</code> 看界面结构，再看 <code>main.cpp</code> 如何加载 QML。包含 C++ 类的天数，再从头文件看暴露给 QML 的属性、方法和信号。</p>
-          <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。后面的完整 App 会持续强化这个分工。</p>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QML + C++ · Day 04 - Qt Quick Controls</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 04 · Qt Quick Controls</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:13.3%"></span></span>
+      <span class="progress-label">4 / 30</span>
+    </span>
+  </nav>
+
+  <h1>Qt Quick Controls</h1>
+  <p class="subtitle">使用 Button、TextField、Slider、Switch 等现成控件构建表单界面。</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>使用 Button、TextField、Slider、Switch 等现成控件构建表单界面。</p>
+
+      <section>
+        <h3>核心概念</h3>
+        <ul>
+          <li>Controls 提供常用交互控件</li>
+          <li>Layouts 负责自适应排版</li>
+          <li>控件属性也可以参与绑定</li>
+        </ul>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 常见错误</strong>
+        <ul>
             <li>如果提示找不到 Qt，请确认 CMake 命令里带了 <code>-DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64</code>。</li>
             <li>如果运行时提示缺少 DLL，请先把 <code>C:\Qt\6.11.1\mingw_64\bin</code> 加入当前 PowerShell 的 <code>PATH</code>。</li>
             <li>如果改了 C++ 头文件但界面没变化，先重新构建，因为 <code>Q_OBJECT</code> 需要 moc 重新生成元对象代码。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>今日练习</h2>
-          <p>增加一个 ComboBox，用来选择学习状态，并把选择结果显示在底部。</p>
-        </section>
-        <section class="next">
-          <h2>明天预告</h2>
-          <p>学习状态和动画。</p>
-        </section>
-      </main>
-    </body>
-    </html>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 今日练习</strong>
+        <p>增加一个 ComboBox，用来选择学习状态，并把选择结果显示在底部。</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <section>
+        <h2>📁 项目文件</h2>
+        <ul>
+          <li><code>CMakeLists.txt</code></li>
+          <li><code>Main.qml</code></li>
+          <li><code>main.cpp</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>运行方式</h3>
+        <p>在 PowerShell 中进入当天目录后执行（构建产物在 <code>build/</code>）：</p>
+        <pre><code>cd qml-cpp-30days/day04
+cmake -S . -B build -G Ninja -DCMAKE_PREFIX_PATH=C:/Qt/6.11.1/mingw_64 -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw1310_64/bin/g++.exe
+cmake --build build
+# 运行前先把 Qt bin 加入 PATH：
+#   $env:Path = "C:\Qt\6.11.1\mingw_64\bin;" + $env:Path
+& build/appDay04.exe</code></pre>
+      </section>
+
+      <section>
+        <h3>代码拆解</h3>
+        <p><code>import QtQuick.Controls</code> 后用 <code>Button</code>/<code>TextField</code>/<code>Slider</code>/<code>Switch</code>，<code>ColumnLayout</code> 自动排版，控件属性参与绑定刷新界面。</p>
+        <p>QML 适合表达界面、状态和交互；C++ 适合保存数据、封装业务规则、提供模型，以及处理文件等系统能力。</p>
+      </section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day03/docs.html"><span class="label">← 前一天</span><span class="title">Day 03</span></a>
+    <a class="next" href="day05/docs.html"><span class="label">后一天 →</span><span class="title">Day 05</span></a>
+  </nav>
+</main>
+</body>
+</html>
