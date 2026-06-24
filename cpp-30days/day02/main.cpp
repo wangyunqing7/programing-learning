@@ -1,21 +1,18 @@
-#include <algorithm>
-#include <chrono>
-#include <filesystem>
-#include <functional>
 #include <iostream>
-#include <map>
-#include <memory>
-#include <numeric>
-#include <optional>
-#include <random>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
-#include <vector>
 
+// 第 02 天：数字计算
+// 掌握 auto 和 const。
 int main() {
-    std::cout << "C++ Day 02: 数字计算\n";
-    double price = 42.5; int count = 3; std::cout << "total=" << price * count << "\\n";
+    constexpr double PI = 3.14159265;
+    auto radius = 5.0;            // auto 推断为 double
+    auto area = PI * radius * radius;
+
+    std::cout << "半径 " << radius << " 的圆面积 = " << area << std::endl;
+
+    // 整数 vs 浮点
+    auto a = 7, b = 2;
+    std::cout << "7/2 = " << a / b << " (整数截断)" << std::endl;
+    std::cout << "7.0/2 = " << 7.0 / b << std::endl;
+    std::cout << "7%2 = " << a % b << std::endl;
     return 0;
 }

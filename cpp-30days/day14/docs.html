@@ -1,48 +1,80 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>纯 C++ 30 天学习项目 第 14 天 - 异常处理</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 14 天</span></nav>
-        <h1>纯 C++ 30 天学习项目 第 14 天：异常处理</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>throw/catch</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.cpp</code></li>
-<li><code>CMakeLists.txt</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C++ 30 天 · Day 14 - 异常处理</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 14 · 异常处理</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:46.7%"></span></span>
+      <span class="progress-label">14 / 30</span>
+    </span>
+  </nav>
+
+  <h1>异常处理</h1>
+  <p class="subtitle">throw / try / catch</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <p>掌握 <strong>throw / try / catch</strong>，通过一个可运行的小程序理解核心用法。</p>
+      <section><h3>知识点</h3><ul>
+          <li><code>throw</code> 抛出异常对象，<code>try/catch</code> 捕获</li>
+          <li>标准异常继承 <code>std::exception</code>，<code>.what()</code> 取信息</li>
+          <li>异常让错误处理与正常逻辑分离</li>
+      </ul></section>
+      <div class="callout warn"><strong>⚠️ 易错点</strong><ul>
+            <li>catch 顺序从具体到一般，<code>catch(...)</code> 兜底</li>
+            <li>析构函数里别抛异常</li>
+      </ul></div>
+      <div class="callout tip"><strong>💡 课后练习</strong><p>自定义一个继承 std::exception 的异常类。</p></div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.cpp</p>
+      <pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+
+// 第 14 天：异常处理
+double safe_divide(int a, int b) {
+    if (b == 0) throw std::invalid_argument("除数为0");
+    if (a % b != 0) throw std::runtime_error("不能整除");
+    return static_cast&lt;double&gt;(a) / b;
+}
+
+int main() {
+    std::pair&lt;int,int&gt; cases[] = {{10,2},{10,0},{10,3}};
+    for (auto [a, b] : cases) {
+        try {
+            std::cout &lt;&lt; a &lt;&lt; "/" &lt;&lt; b &lt;&lt; " = " &lt;&lt; safe_divide(a, b) &lt;&lt; std::endl;
+        } catch (const std::exception&amp; e) {
+            std::cout &lt;&lt; a &lt;&lt; "/" &lt;&lt; b &lt;&lt; " 失败：" &lt;&lt; e.what() &lt;&lt; std::endl;
+        }
+    }
+    return 0;
+}</code></pre>
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">10/2 = 5
+10/0 失败：除数为0
+10/3 失败：不能整除</pre>
+      <section><h3>编译运行</h3>
+      <pre><code>cd cpp-30days/day14
+g++ -std=c++17 -Wall main.cpp -o a &amp;&amp; ./a</pre></code>
+      <p>需要 C++17 或更高（用到结构化绑定、filesystem 等）。</p></section>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day13/docs.html"><span class="label">← 前一天</span><span class="title">Day 13</span></a>
+    <a class="next" href="day15/docs.html"><span class="label">后一天 →</span><span class="title">Day 15</span></a>
+  </nav>
+</main>
+</body>
+</html>
