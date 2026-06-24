@@ -1,47 +1,90 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 08 天 - 密码建议器</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 08 天</span></nav>
-        <h1>Python 30 天学习项目 第 08 天：密码建议器</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>random、字符串和函数组合</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 08 - 密码建议器</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 08 · 密码建议器</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:26.7%"></span></span>
+      <span class="progress-label">8 / 30</span>
+    </span>
+  </nav>
+
+  <h1>密码建议器</h1>
+  <p class="subtitle">random、字符串方法、强度评估</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>random.choice/shuffle</code> 生成随机内容</li>
+        <li>用 <code>string</code> 模块的字符常量</li>
+        <li>用 <code>**kwargs</code> 接收可变配置</li>
+        <li>设计一个打分函数评估密码强度</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>随机</strong>：<code>random.choice(seq)</code> 随机选一个，<code>random.shuffle(list)</code> 原地打乱（返回 None）。</p>
+        <p><strong>可复现</strong>：<code>random.seed(42)</code> 固定随机种子，让每次运行结果一样，方便调试和演示。</p>
+        <p><strong>保证覆盖</strong>：先生成「每种字符至少一个」的必需列表，再用随机字符补齐剩余位数。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li><code>random.shuffle</code> 原地打乱、返回 None，不能写成 <code>x = shuffle(x)</code>。</li>
+          <li>安全场景不要用 <code>random</code>，要用 <code>secrets</code> 模块。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>加「排除易混字符 oO0Il」的选项。</li>
+          <li>把 <code>strength</code> 改成返回 0-100 的分数。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">import random, string
+
+def generate(length=12, use_upper=True, use_digit=True, use_symbol=True):
+    if length < 4:
+        raise ValueError("至少 4 位")
+    pool = list(string.ascii_lowercase)
+    required = [random.choice(string.ascii_lowercase)]
+    if use_upper:
+        pool += list(string.ascii_uppercase)
+        required.append(random.choice(string.ascii_uppercase))
+    rest = [random.choice(pool) for _ in range(length - len(required))]
+    chars = required + rest
+    random.shuffle(chars)
+    return "".join(chars)</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">  aB3!xKmP2nQf      强度：强
+  T5#lKpZr9wYd      强度：强
+边界测试：密码至少 4 位</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day07/docs.html"><span class="label">← 前一天</span><span class="title">Day 07 单位换算函数</span></a>
+    <a class="next" href="day09/docs.html"><span class="label">后一天 →</span><span class="title">Day 09 文本统计器</span></a>
+  </nav>
+</main>
+</body>
+</html>

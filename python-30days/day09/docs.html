@@ -1,47 +1,92 @@
 <!doctype html>
-    <html lang="zh-CN">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Python 30 天学习项目 第 09 天 - 文本统计器</title>
-      <link rel="stylesheet" href="../assets/style.css">
-    </head>
-    <body>
-      <main class="page">
-        <nav class="topline"><a href="../index.html">返回课程目录</a><span>第 09 天</span></nav>
-        <h1>Python 30 天学习项目 第 09 天：文本统计器</h1>
-        <section>
-          <h2>今天目标</h2>
-          <p>通过一个小项目掌握：<strong>字符串处理和统计</strong>。</p>
-        </section>
-        <section>
-          <h2>项目文件</h2>
-          <ul><li><code>main.py</code></li>
-<li><code>run.ps1</code></li>
-<li><code>README.md</code></li>
-<li><code>docs.html</code></li></ul>
-        </section>
-        <section>
-          <h2>运行方式</h2>
-          <p>进入当天目录后运行：</p>
-          <pre><code>.\run.ps1</code></pre>
-        </section>
-        <section>
-          <h2>学习建议</h2>
-          <ul>
-            <li>先运行项目，观察输出或页面效果。</li>
-            <li>再阅读源码，把变量、函数、数据结构和控制流画出来。</li>
-            <li>最后完成 README 里的今日练习，哪怕只改一小处也要重新运行。</li>
-          </ul>
-        </section>
-        <section>
-          <h2>常见错误</h2>
-          <ul>
-            <li>路径里有空格时，请在 PowerShell 中用引号包住路径。</li>
-            <li>如果脚本被执行策略拦截，可以使用 <code>powershell -ExecutionPolicy Bypass -File .\run.ps1</code>。</li>
-            <li>修改代码后要重新运行或重新编译，不要只看旧输出。</li>
-          </ul>
-        </section>
-      </main>
-    </body>
-    </html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python 30 天 · Day 09 - 文本统计器</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar">
+    <a class="back" href="../index.html">← 返回课程目录</a>
+    <span class="day-title">Day 09 · 文本统计器</span>
+    <span class="progress-wrap">
+      <span class="progress-bar"><span style="width:30.0%"></span></span>
+      <span class="progress-label">9 / 30</span>
+    </span>
+  </nav>
+
+  <h1>文本统计器</h1>
+  <p class="subtitle">字符串处理、Counter、Top-N</p>
+
+  <div class="split">
+    <section class="panel">
+      <h2>📌 学习目标</h2>
+      <ul>
+        <li>用 <code>str.replace/split/lower</code> 清洗文本</li>
+        <li>用 <code>collections.Counter</code> 统计词频</li>
+        <li>用 <code>most_common(n)</code> 取 Top-N</li>
+        <li>用 dataclass 封装统计结果</li>
+      </ul>
+
+      <section>
+        <h3>知识点</h3>
+        <p><strong>清洗</strong>：先把标点替换成空格，再 <code>split()</code> 分词，避免 <code>hello,</code> 和 <code>hello</code> 被当成两个词。</p>
+        <p><strong>Counter</strong>：<code>Counter(list)</code> 自动数每个元素出现次数，<code>.most_common(5)</code> 直接取前 5。</p>
+        <p><strong>停用词</strong>：常见词（the/a/is）信息量低，统计前先过滤掉。</p>
+      </section>
+
+      <div class="callout warn">
+        <strong>⚠️ 易错点</strong>
+        <ul>
+          <li>不清洗标点会导致同一单词被统计成多个。</li>
+          <li>空文本会让 <code>max(words, key=len)</code> 报错，要先判断非空。</li>
+        </ul>
+      </div>
+
+      <div class="callout tip">
+        <strong>💡 课后练习</strong>
+        <ul>
+          <li>支持中文：按字（而不是按空格分词）统计。</li>
+          <li>把结果存成 CSV 词频表。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="code-caption">main.py（核心）</p>
+      <pre><code class="language-python">from collections import Counter
+STOP_WORDS = {"the", "a", "an", "is", "to", "of"}
+
+def analyze(text, top_n=5):
+    if not text.strip():
+        raise ValueError("文本为空")
+    cleaned = text
+    for ch in ",.;:!?\"'()[]":
+        cleaned = cleaned.replace(ch, " ")
+    words = [w.lower() for w in cleaned.split() if w]
+    words = [w for w in words if w not in STOP_WORDS]
+    return Counter(words).most_common(top_n)</code></pre>
+
+      <p class="code-caption">▶ 运行结果</p>
+      <pre class="output">全文统计：
+  字符数：78
+  单词数：9
+  最长单词：language
+  词频 Top 5：
+    python      3
+边界测试：文本为空</pre>
+    </section>
+  </div>
+
+  <nav class="pager">
+    <a class="prev" href="day08/docs.html"><span class="label">← 前一天</span><span class="title">Day 08 密码建议器</span></a>
+    <a class="next" href="day10/docs.html"><span class="label">后一天 →</span><span class="title">Day 10 临时笔记文件</span></a>
+  </nav>
+</main>
+</body>
+</html>
